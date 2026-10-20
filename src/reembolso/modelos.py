@@ -56,6 +56,10 @@ class ResultadoDespesa:
     motivo: str
     alertas: list[str] = field(default_factory=list)
     despesa_mantida: str | None = None
+    moeda_original: str | None = None
+    valor_original: Decimal | None = None
+    taxa_cambio: Decimal | None = None
+    data_taxa_cambio: date | None = None
 
 
 @dataclass

@@ -276,6 +276,15 @@ def montar_saida(resultado: Any) -> dict[str, Any]:
         if item.despesa_mantida is not None:
             dados_item["despesa_mantida"] = item.despesa_mantida
         dados_item["alertas"] = list(item.alertas)
+        if item.moeda_original is not None:
+            dados_item["moeda_original"] = item.moeda_original
+            dados_item["valor_original"] = item.valor_original
+            if (
+                item.taxa_cambio is not None
+                and item.data_taxa_cambio is not None
+            ):
+                dados_item["taxa_cambio"] = item.taxa_cambio
+                dados_item["data_taxa_cambio"] = item.data_taxa_cambio.isoformat()
         itens.append(dados_item)
 
     resumo = resultado.resumo

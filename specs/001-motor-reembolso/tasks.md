@@ -166,7 +166,7 @@
   - **Aceite:** o teste `test_rn005_duplicata_exige_mesma_moeda_e_valor_original` passa.
   - **Commit:**
 
-- [ ] **T-028** — Serializar os campos de moeda original e de câmbio apenas nos itens estrangeiros aplicáveis, mantendo valores solicitados e reembolsáveis em BRL e sem converter estornos estrangeiros ou itens sem cotação.
+- [x] **T-028** — Serializar os campos de moeda original e de câmbio apenas nos itens estrangeiros aplicáveis, mantendo valores solicitados e reembolsáveis em BRL e sem converter estornos estrangeiros ou itens sem cotação.
   - **Atende:** RN-002, RN-009, RN-013, AMB-029, AMB-031, AMB-032
   - **Aceite:** o teste `test_rn013_serializa_campos_de_moeda_sem_taxa_quando_sem_conversao` passa.
   - **Commit:**

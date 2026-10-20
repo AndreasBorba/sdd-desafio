@@ -1,6 +1,7 @@
 """Coordenação do cálculo das despesas."""
 
 from collections.abc import Mapping
+from dataclasses import replace
 from datetime import date
 from decimal import Decimal
 from typing import Any
@@ -25,6 +26,7 @@ def processar(
     taxas_cambio: Mapping[date, Mapping[str, Decimal]] | None = None,
 ) -> ResultadoExecucao:
     despesas = normalizar_despesas(entrada.despesas)
+    despesas_originais = {despesa.id: despesa for despesa in despesas}
     resultados = []
 
     despesas, estornos = separar_estornos(despesas)
@@ -32,6 +34,7 @@ def processar(
 
     despesas, recusadas = converter_moedas(despesas, taxas_cambio or {})
     resultados.extend(recusadas)
+    despesas_convertidas = {despesa.id: despesa for despesa in despesas}
 
     despesas, recusadas = filtrar_categorias(
         despesas,
@@ -67,7 +70,31 @@ def processar(
         )
     )
 
-    ordem_por_id = {despesa.id: despesa.indice_original for despesa in entrada.despesas}
+    ordem_por_id = {
+        despesa.id: despesa.indice_original
+        for despesa in entrada.despesas
+    }
+    resultados_com_metadados = []
+    for resultado in resultados:
+        despesa_original = despesas_originais[resultado.id]
+        if despesa_original.moeda == "BRL":
+            resultados_com_metadados.append(resultado)
+            continue
+
+        despesa_convertida = despesas_convertidas.get(
+            resultado.id,
+            despesa_original,
+        )
+        resultados_com_metadados.append(
+            replace(
+                resultado,
+                moeda_original=despesa_original.moeda,
+                valor_original=despesa_original.valor_original,
+                taxa_cambio=despesa_convertida.taxa_cambio,
+                data_taxa_cambio=despesa_convertida.data_taxa_cambio,
+            )
+        )
+    resultados = resultados_com_metadados
     resultados.sort(key=lambda resultado: ordem_por_id[resultado.id])
 
     return ResultadoExecucao(
