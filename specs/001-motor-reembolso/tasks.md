@@ -71,7 +71,7 @@
   - **Aceite de hospedagem:** o teste aplica o teto de R$ 250 por noite identificada: "Hotel Rio - 2 diarias" e "Hotel 2diarias" têm teto de R$ 500, "Airbnb 3 noites" tem teto de R$ 750 e "Hotel 1 noite" tem teto de R$ 250 sem alerta; "Hospedagem" sem número reconhecido, "0 noites" e "duas noites" têm teto de R$ 250 e recebem DIARIAS_NAO_IDENTIFICADAS.
   - **Commit:**
 
-- [ ] **T-012** — Implementar a etapa 9: calcular totais e contagens por status, excluindo estornos dos totais e contando duplicatas recusadas.
+- [x] **T-012** — Implementar a etapa 9: calcular totais e contagens por status, excluindo estornos dos totais e contando duplicatas recusadas.
   - **Atende:** RN-009, AMB-012, AMB-014, AMB-018
   - **Aceite:** o teste `test_rn009_calcula_totais_e_contagem_por_status` passa.
   - **Commit:**
