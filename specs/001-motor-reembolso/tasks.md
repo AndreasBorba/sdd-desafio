@@ -121,7 +121,7 @@
 
 ## Fase 7 — Correção de interface
 
-- [ ] **T-020** — Ajustar a CLI para `calcular --input <arquivo de despesas> --output <arquivo de resultado>`, atualizar os testes de CLI e de ponta a ponta e atualizar o README para o novo formato.
+- [x] **T-020** — Ajustar a CLI para `calcular --input <arquivo de despesas> --output <arquivo de resultado>`, atualizar os testes de CLI e de ponta a ponta e atualizar o README para o novo formato.
   - **Atende:** RN-011
   - **Aceite:** o teste `test_rn011_interface_calcular_input_output` passa e a suíte inteira passa.
   - **Commit:**

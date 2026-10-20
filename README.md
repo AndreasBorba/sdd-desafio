@@ -9,14 +9,16 @@ No PowerShell, na raiz do projeto:
 
 ```powershell
 $env:PYTHONPATH = "src"
-python -m reembolso exemplos/despesas-exemplo.json resultado.json
+python -m reembolso calcular --input exemplos/despesas-exemplo.json --output resultado.json
 pytest -q
 ```
 
-A CLI recebe, nesta ordem, o caminho do arquivo de entrada e o caminho do
-arquivo de saída. Retorna código `0` em caso de sucesso, `1` para entrada
-inválida e `2` para erro de uso dos argumentos. Em entrada inválida, a
-mensagem é escrita em stderr e o arquivo de saída não é criado.
+A CLI recebe o subcomando obrigatório `calcular`, com `--input` para o caminho
+do arquivo de entrada e `--output` para o caminho do arquivo de saída. Ambos
+são obrigatórios; caminhos posicionais não são aceitos. Retorna código `0` em
+caso de sucesso, `1` para entrada inválida e `2` para erro de uso dos
+argumentos. Em entrada inválida, a mensagem é escrita em stderr e o arquivo
+de saída não é criado.
 
 ## Formato dos arquivos
 

@@ -27,7 +27,9 @@ def test_rn010_codigos_de_saida(tmp_path, capsys):
     saida = tmp_path / "saida.json"
     entrada.write_text(json.dumps(_entrada()), encoding="utf-8")
 
-    assert main([str(entrada), str(saida)]) == 0
+    assert main(
+        ["calcular", "--input", str(entrada), "--output", str(saida)]
+    ) == 0
     saida_json = json.loads(saida.read_text(encoding="utf-8"))
     assert saida_json["itens"][0]["id"] == "d-001"
     assert saida_json["itens"][0]["valor_reembolsavel"] == 42.00
@@ -39,7 +41,15 @@ def test_rn010_codigos_de_saida(tmp_path, capsys):
     entrada_invalida.write_text(json.dumps(dados_invalidos), encoding="utf-8")
     saida_invalida = tmp_path / "saida-invalida.json"
 
-    assert main([str(entrada_invalida), str(saida_invalida)]) == 1
+    assert main(
+        [
+            "calcular",
+            "--input",
+            str(entrada_invalida),
+            "--output",
+            str(saida_invalida),
+        ]
+    ) == 1
     assert "d-001" in capsys.readouterr().err
     assert not saida_invalida.exists()
 
