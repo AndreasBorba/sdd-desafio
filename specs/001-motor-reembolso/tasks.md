@@ -109,7 +109,7 @@
 
 ## Fase 6 — Ponta a ponta e documentação
 
-- [ ] **T-018** — Executar a CLI com o JSON de exemplo e verificar os 14 itens, os resultados e os totais esperados na spec.
+- [x] **T-018** — Executar a CLI com o JSON de exemplo e verificar os 14 itens, os resultados e os totais esperados na spec.
   - **Atende:** RN-001, RN-002, RN-003, RN-004, RN-005, RN-006, RN-007, RN-008, RN-009
   - **Aceite:** o teste `test_rn009_ponta_a_ponta_json_de_exemplo` passa.
   - **Commit:**
