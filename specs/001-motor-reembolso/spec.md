@@ -165,7 +165,7 @@ Cada regra recebe um ID (`RN-001`, ...). As tasks vão referenciar esses IDs.
 
 **Regra:** despesa com valor maior que R$ 100,00 exige nota fiscal. Se não houver, o item inteiro é recusado, valor reembolsável 0 e não gasta teto.
 **Origem:** decisões AMB-005 e AMB-006
-**Aceite:** d-003, d-004 e d-013 têm valor acima de R$ 100,00 e sem nota; todas ficam RECUSADO com motivo NF_AUSENTE. O valor 100.00 não exige nota.
+**Aceite:** R$ 100,00 não exige nota; d-003 fica PARCIAL, com valor reembolsável 80.00 e motivo LIMITE_EXCEDIDO. d-004 e d-013 ficam RECUSADO com motivo NF_AUSENTE.
 
 ### RN-007 — Viagem inferida
 
@@ -183,7 +183,7 @@ Cada regra recebe um ID (`RN-001`, ...). As tasks vão referenciar esses IDs.
 
 **Regra:** o resumo da execução conta os valores solicitados, os valores reembolsáveis e a contagem final dos itens por status. Estornos não entram nos totais do resumo e duplicatas não gastam teto.
 **Origem:** decisões AMB-012 e AMB-014
-**Aceite:** d-009 não entra em total_solicitado, total_reembolsavel nem total_recusado; os itens aprovados e parciais entram no total da empresa e a soma de status resultante é 4 aprovados, 2 parciais, 7 recusados e 1 estorno.
+**Aceite:** d-009 não entra em total_solicitado, total_reembolsavel nem total_recusado; os itens aprovados e parciais entram no total da empresa e a soma de status resultante é 4 aprovados, 3 parciais, 6 recusados e 1 estorno.
 
 ---
 
@@ -345,7 +345,7 @@ Cada regra recebe um ID (`RN-001`, ...). As tasks vão referenciar esses IDs.
 |---|---|---|---|
 | d-001 | 2026-07-03, alimentação, 72.50, com nota | Valor reembolsável 60.00 e status PARCIAL; o excedente de 12.50 é cortado | RN-008 |
 | d-002 | 2026-07-03, alimentação, 38.00, com nota | Sem valor pago porque o teto do dia já foi usado | RN-008 |
-| d-003 | 2026-07-06, transporte urbano, 100.00, sem nota | RECUSADO por NF_AUSENTE, valor reembolsável 0.00 | RN-006 |
+| d-003 | 2026-07-06, transporte urbano, 100.00, sem nota | PARCIAL, valor reembolsável 80.00, motivo LIMITE_EXCEDIDO | RN-006 e RN-008 |
 | d-004 | 2026-07-06, transporte urbano, 100.01, sem nota | RECUSADO por NF_AUSENTE, valor reembolsável 0.00 | RN-006 |
 | d-005 | 2026-07-07, coworking, 89.00, com nota | RECUSADO por categoria fora da política; não gasta teto | RN-003 |
 | d-006 | 2026-07-09, alimentação, 54.90, com nota | APROVADO, valor reembolsável 54.90 | RN-008 |
@@ -379,7 +379,7 @@ O sistema está pronto quando:
 - [ ] d-002, no mesmo dia da alimentação, fica RECUSADO por LIMITE_EXCEDIDO, sem gastar mais do teto do dia.
 - [ ] d-006 e d-007 são tratados como duplicata; d-007 fica RECUSADO e d-006 continua como original.
 - [ ] d-009 é ESTORNO, tem valor reembolsável 0.00 e não entra nos totais do resumo.
-- [ ] d-003, d-004 e d-013, acima de R$ 100,00 e sem nota, são RECUSADO com motivo NF_AUSENTE.
+- [ ] R$ 100,00 não exige nota; d-003 é PARCIAL, com valor reembolsável 80.00 e motivo LIMITE_EXCEDIDO. d-004 e d-013 ficam RECUSADO com motivo NF_AUSENTE.
 - [ ] d-010 e d-011 recebem o alerta VIAGEM_INFERIDA e d-011 paga 33.33 no teto ampliado de viagem.
 - [ ] d-008 é RECUSADO por FORA_COMPETENCIA, mesmo sendo uma despesa válida de outra categoria.
-- [ ] o resumo final conta 4 aprovados, 2 parciais, 7 recusados e 1 estorno para o exemplo completo dos itens d-001 a d-014.
+- [ ] o resumo final conta 4 aprovados, 3 parciais, 6 recusados e 1 estorno para o exemplo completo dos itens d-001 a d-014.
