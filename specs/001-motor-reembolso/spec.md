@@ -49,19 +49,19 @@ O sistema passa a calcular, para um colaborador e um período, quais despesas s�
 
 | Campo | Tipo | Significado | Obrigatório |
 |---|---|---|---|
-| colaborador.id | texto | identificador do colaborador | sim |
-| colaborador.nome | texto | nome do colaborador | sim |
-| colaborador.centro_custo | texto | centro de custo do colaborador | sim |
-| periodo.competencia | texto | rótulo da competência | sim |
-| periodo.inicio | data | primeiro dia do período, incluído | sim |
-| periodo.fim | data | último dia do período, incluído | sim |
-| despesas[].id | texto | identificador da despesa | sim |
-| despesas[].data | data | dia em que a despesa ocorreu | sim |
-| despesas[].categoria | texto | categoria da despesa | sim |
-| despesas[].descricao | texto | resumo do gasto | sim |
-| despesas[].fornecedor | texto | nome do fornecedor ou local da compra | sim |
-| despesas[].valor | número | valor informado para a despesa | sim |
-| despesas[].tem_nota_fiscal | booleano | indica se existe nota fiscal | sim |
+| colaborador.id | texto | identificador do colaborador | obrigatório |
+| colaborador.nome | texto | nome do colaborador | opcional |
+| colaborador.centro_custo | texto | centro de custo do colaborador | opcional |
+| periodo.competencia | texto | rótulo da competência | opcional |
+| periodo.inicio | data | primeiro dia do período, incluído | obrigatório |
+| periodo.fim | data | último dia do período, incluído | obrigatório |
+| despesas[].id | texto | identificador da despesa | obrigatório |
+| despesas[].data | data | dia em que a despesa ocorreu | obrigatório |
+| despesas[].categoria | texto | categoria da despesa | obrigatório |
+| despesas[].descricao | texto | resumo do gasto; se ausente em hospedagem, recebe o alerta DIARIAS_NAO_IDENTIFICADAS | opcional |
+| despesas[].fornecedor | texto | nome do fornecedor ou local da compra | obrigatório |
+| despesas[].valor | número | valor informado para a despesa | obrigatório |
+| despesas[].tem_nota_fiscal | booleano | indica se existe nota fiscal | obrigatório |
 
 **Saída:** cada item recebe o valor solicitado, o valor reembolsável, o status final, o motivo e os alertas. O resumo traz a soma dos valores e a contagem por status.
 
@@ -190,6 +190,12 @@ Cada regra recebe um ID (`RN-001`, ...). As tasks vão referenciar esses IDs.
 **Regra:** o resumo da execução conta os valores solicitados, os valores reembolsáveis e a contagem final dos itens por status. Estornos não entram nos totais do resumo e duplicatas não gastam teto.
 **Origem:** decisões AMB-012 e AMB-014
 **Aceite:** d-009 não entra em total_solicitado, total_reembolsavel nem total_recusado; no caso completo d-001 a d-014, total_solicitado é 1861.84, total_reembolsavel é 815.43, total_recusado é 1046.41 e a contagem é 4 aprovados, 3 parciais, 6 recusados e 1 estorno.
+
+### RN-010 — Validação da entrada
+
+**Regra:** o sistema valida todos os dados antes de calcular. Arquivo inexistente, JSON malformado, campo obrigatório ausente, tipo inválido, valor não numérico, data inválida ou período com início posterior ao fim tornam a entrada inválida. Nesse caso, não é calculada nenhuma despesa nem gerado arquivo de saída; uma mensagem em português é escrita na saída de erro, incluindo o id da despesa quando disponível, e o código de saída é 1. Em caso de sucesso, o código de saída é 0. Erro de uso da linha de comando retorna código 2. Os campos obrigatórios e opcionais são os indicados na tabela de entrada.
+**Origem:** decisão de validação da entrada.
+**Aceite:** um JSON com uma despesa de id "d-001" sem o campo "valor" retorna código 1, escreve uma mensagem em português que cita "d-001" na saída de erro e não cria o arquivo de saída.
 
 ---
 

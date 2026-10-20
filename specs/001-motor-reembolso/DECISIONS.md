@@ -10,33 +10,18 @@ Ordem cronológica inversa: a mais recente primeiro.
 
 ---
 
-## D-002 — <título curto> · `<data>`
+## D-001 — Define validação de entrada inválida · 2026-10-19
 
-**Gatilho:** <o que provocou: envelope lacrado / erro descoberto na implementação /
-ambiguidade que só apareceu ao testar / o Claude apontou uma contradição>
+**Gatilho:** lacuna encontrada na fase de plano: a spec não definia o comportamento para entradas inválidas.
 
-**O que mudou na spec:** <de → para, citando o ID da regra>
+**O que mudou na spec:** adicionada RN-010 para definir os dados obrigatórios e opcionais, validação completa antes do cálculo, mensagem de erro, ausência de arquivo de saída e códigos de saída.
 
-**Por quê:**
+**Por quê:** estabelecer um comportamento verificável e consistente para entradas inválidas.
 
-**O que isso invalidou:** <requisitos, decisões técnicas, testes que caíram>
+**O que isso invalidou:** nada.
 
-**Tasks afetadas:** <as que precisaram ser refeitas + as novas criadas>
+**Tasks afetadas:** nenhuma; ainda não existem.
 
-**Custo:** <quantos arquivos tocados, quanto tempo>
+**Custo:** 3 documentos alterados; nenhum código ou teste alterado.
 
 ---
-
-## D-001 — <título curto> · `<data>`
-
-**Gatilho:**
-
-**O que mudou na spec:**
-
-**Por quê:**
-
-**O que isso invalidou:**
-
-**Tasks afetadas:**
-
-**Custo:**

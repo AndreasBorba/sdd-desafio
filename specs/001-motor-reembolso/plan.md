@@ -203,6 +203,22 @@ arquivos genéricos, o que reduziria a clareza das fronteiras e da rastreabilida
 **Consequência:** responsabilidades ficam localizadas; a estrutura inicial
 tem mais arquivos do que um script único.
 
+### DT-011 — Validar a entrada antes do cálculo
+
+**Contexto:** RN-010 exige validar o arquivo inteiro antes de calcular e
+especifica a mensagem, a ausência de arquivo de saída e os códigos de saída.
+**Decisão:** validar e converter a entrada na fronteira antes de chamar o
+pipeline. A validação sinaliza erros por uma exceção própria, tratada na CLI
+para escrever uma mensagem em português na saída de erro e retornar código 1.
+Erros de uso dos argumentos permanecem sob o tratamento da CLI e retornam
+código 2; entrada válida retorna 0.
+**Alternativa descartada:** permitir que erros de leitura ou conversão cheguem
+ao pipeline e sejam tratados como falhas de regra, o que poderia iniciar o
+cálculo com dados incompletos ou produzir mensagens e códigos inconsistentes.
+**Consequência:** entrada inválida é rejeitada antes do cálculo e da escrita
+da saída; a fronteira deve preservar o id da despesa quando disponível para
+incluí-lo na mensagem.
+
 ---
 
 ## 6. Estratégia de testes
@@ -211,9 +227,17 @@ tem mais arquivos do que um script único.
   para a sequência do pipeline e conversões das fronteiras, e um teste de
   ponta a ponta para a CLI e os arquivos.
 - **Cada `RN-NNN` da spec tem teste?** Sim. A lista de testes deve cobrir
-  RN-001 a RN-009, com pelo menos um teste cujo nome começa pelo ID de cada
+  RN-001 a RN-010, com pelo menos um teste cujo nome começa pelo ID de cada
   regra. Uma alteração da spec deve atualizar a cobertura antes da implementação
   ser considerada concluída.
+- **RN-010:** usar `test_rn010_entrada_invalida_campo_obrigatorio` para
+  verificar campo obrigatório ausente, código 1, mensagem em português com o
+  id quando disponível e ausência de arquivo de saída;
+  `test_rn010_entrada_invalida_tipos_datas_e_periodo` para tipos inválidos,
+  valor não numérico, data inválida e início posterior ao fim;
+  `test_rn010_entrada_invalida_arquivo_e_json` para arquivo inexistente e JSON
+  malformado; e `test_rn010_codigos_de_saida` para sucesso com código 0 e erro
+  de uso da linha de comando com código 2.
 - **Casos de borda da seção 7 da spec:** cobertos por testes dos resultados de
   d-001 a d-014, incluindo status, valor reembolsável, motivo, alertas,
   referência da duplicata e efeito nos totais conforme aplicável.
@@ -262,6 +286,7 @@ tests/
 ├── test_rn007_viagem.py
 ├── test_rn008_tetos.py
 ├── test_rn009_resumo.py
+├── test_rn010_validacao_entrada.py
 ├── test_entrada_saida.py
 └── test_ponta_a_ponta.py
 ```
@@ -276,7 +301,3 @@ tests/
 | Alteração na ordem das etapas mudar o resultado | Média | Testar a ordem do pipeline e manter testes de integração para casos com mais de uma regra aplicável. |
 | Divergência entre a configuração central e a spec | Baixa | Revisar a configuração junto com cada alteração de regra e executar os testes das regras afetadas. |
 | Diferença entre alerta ou motivo esperado e o resultado por item | Média | Verificar status, motivo, alertas e referência da duplicata nos testes de cada regra e no teste ponta a ponta. |
-
-### Perguntas sobre lacunas da spec
-
-- Como o programa deve se comportar quando o JSON de entrada estiver malformado ou não contiver um campo obrigatório: qual mensagem deve apresentar e qual código de saída deve retornar?
