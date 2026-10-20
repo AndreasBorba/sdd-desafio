@@ -102,7 +102,7 @@
 
 ## Fase 5 — CLI
 
-- [ ] **T-017** — Implementar a linha de comando para receber os caminhos de entrada e saída, executar o fluxo e comunicar erros na saída de erro.
+- [x] **T-017** — Implementar a linha de comando para receber os caminhos de entrada e saída, executar o fluxo e comunicar erros na saída de erro.
   - **Atende:** RN-010
   - **Aceite:** o teste `test_rn010_codigos_de_saida` passa.
   - **Commit:**

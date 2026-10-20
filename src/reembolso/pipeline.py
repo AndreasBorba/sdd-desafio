@@ -1,1 +1,43 @@
 """Coordenação do cálculo das despesas."""
+
+from reembolso.modelos import EntradaExecucao, ResultadoExecucao
+from reembolso.regras.etapa_01_normalizacao import normalizar_despesas
+from reembolso.regras.etapa_02_estornos import separar_estornos
+from reembolso.regras.etapa_03_categorias import filtrar_categorias
+from reembolso.regras.etapa_04_periodo import filtrar_por_periodo
+from reembolso.regras.etapa_05_duplicatas import filtrar_duplicatas
+from reembolso.regras.etapa_06_nota_fiscal import filtrar_nota_fiscal
+from reembolso.regras.etapa_07_viagem import identificar_viagem
+from reembolso.regras.etapa_08_tetos import aplicar_tetos
+from reembolso.regras.etapa_09_resumo import calcular_resumo
+
+
+def processar(entrada: EntradaExecucao) -> ResultadoExecucao:
+    despesas = normalizar_despesas(entrada.despesas)
+    resultados = []
+
+    despesas, estornos = separar_estornos(despesas)
+    resultados.extend(estornos)
+
+    despesas, recusadas = filtrar_categorias(despesas)
+    resultados.extend(recusadas)
+
+    despesas, recusadas = filtrar_por_periodo(despesas, entrada.periodo)
+    resultados.extend(recusadas)
+
+    despesas, recusadas = filtrar_duplicatas(despesas)
+    resultados.extend(recusadas)
+
+    despesas, recusadas = filtrar_nota_fiscal(despesas)
+    resultados.extend(recusadas)
+
+    dias_viagem, despesas = identificar_viagem(despesas)
+    resultados.extend(aplicar_tetos(despesas, dias_viagem))
+
+    ordem_por_id = {despesa.id: despesa.indice_original for despesa in entrada.despesas}
+    resultados.sort(key=lambda resultado: ordem_por_id[resultado.id])
+
+    return ResultadoExecucao(
+        resultados=resultados,
+        resumo=calcular_resumo(resultados),
+    )
