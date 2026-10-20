@@ -59,7 +59,7 @@
   - **Aceite:** o teste `test_rn006_nota_fiscal_por_despesa_e_limite_exato` passa.
   - **Commit:**
 
-- [ ] **T-010** — Implementar a etapa 7: inferir os dias de viagem a partir das hospedagens qualificadas, identificando diárias e aplicando os alertas previstos.
+- [x] **T-010** — Implementar a etapa 7: inferir os dias de viagem a partir das hospedagens qualificadas, identificando diárias e aplicando os alertas previstos.
   - **Atende:** RN-007, AMB-003, AMB-007
   - **Aceite:** o teste `test_rn007_inferencia_viagem_considera_hospedagem_qualificada` passa.
   - **Aceite de diárias:** o teste reconhece "Hotel Rio - 2 diarias" como 2 noites, "Airbnb 3 noites" como 3, "Hotel 2 DIÁRIAS" como 2, "Hotel 2diarias" como 2, "Hotel 1 noite" como 1 sem alerta e "2 diarias e 1 noite" como 2; "Hospedagem" sem número reconhecido, "0 noites" e "duas noites" resultam em 1 noite e no alerta DIARIAS_NAO_IDENTIFICADAS.
