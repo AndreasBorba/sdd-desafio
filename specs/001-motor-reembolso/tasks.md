@@ -29,7 +29,7 @@
 
 ## Fase 2 — Pipeline da política
 
-- [ ] **T-004** — Implementar a etapa 1: arredondar o valor uma única vez e normalizar a categoria antes do cálculo.
+- [x] **T-004** — Implementar a etapa 1: arredondar o valor uma única vez e normalizar a categoria antes do cálculo.
   - **Atende:** RN-001, AMB-013, AMB-015
   - **Aceite:** o teste `test_rn001_arredonda_valor_e_normaliza_categoria` passa.
   - **Commit:**

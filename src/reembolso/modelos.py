@@ -33,6 +33,7 @@ class Despesa:
     tem_nota_fiscal: bool
     indice_original: int
     descricao: str | None = None
+    alertas: list[str] = field(default_factory=list)
 
 
 @dataclass
