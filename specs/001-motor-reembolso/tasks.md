@@ -39,7 +39,7 @@
   - **Aceite:** o teste `test_rn002_estorno_nao_altera_teto` passa.
   - **Commit:**
 
-- [ ] **T-006** — Implementar a etapa 3: recusar categorias fora da política sem consumir o teto do dia.
+- [x] **T-006** — Implementar a etapa 3: recusar categorias fora da política sem consumir o teto do dia.
   - **Atende:** RN-003
   - **Aceite:** o teste `test_rn003_categoria_fora_da_politica_nao_gasta_teto` passa.
   - **Commit:**
