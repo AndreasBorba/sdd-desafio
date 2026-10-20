@@ -29,6 +29,35 @@ caso de sucesso, `1` para entrada inválida e `2` para erro de uso dos
 argumentos. Em entrada inválida, a mensagem é escrita em stderr e o arquivo
 de saída não é criado.
 
+## Política, câmbio e moeda estrangeira
+
+Por padrão, a CLI usa a política v4 em
+`exemplos\envelope\politica-v4.json` e a tabela de câmbio em
+`exemplos\envelope\cambio.json`. Esses arquivos acompanham o projeto e são
+localizados pela instalação, não pelo diretório atual. Para selecionar outros
+arquivos, informe `--politica` e `--cambio`:
+
+```powershell
+python -m reembolso calcular `
+  --input exemplos\envelope\despesas-envelope.json `
+  --output resultado.json `
+  --politica exemplos\envelope\politica-v4.json `
+  --cambio exemplos\envelope\cambio.json
+```
+
+O campo opcional `moeda` aceita códigos ISO 4217 de três letras; quando
+omitido, a despesa é considerada em BRL. Despesas em moeda estrangeira são
+convertidas para BRL pela cotação da data da despesa. Se não houver cotação
+nesse dia, usa-se a cotação mais recente dos 5 dias corridos anteriores. Sem
+cotação disponível nessa janela, o item é recusado com
+`CAMBIO_INDISPONIVEL`.
+
+Os valores `valor_solicitado`, `valor_reembolsavel` e os totais são sempre em
+BRL. Itens estrangeiros apresentam também `moeda_original` e `valor_original`;
+quando convertidos, incluem `taxa_cambio` e `data_taxa_cambio`. Itens sem
+cotação e estornos em moeda estrangeira não incluem taxa ou data de câmbio, e
+estornos não são convertidos.
+
 ## Formato dos arquivos
 
 A entrada contém um colaborador, o período e uma lista de despesas. Os campos

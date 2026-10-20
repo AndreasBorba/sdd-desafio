@@ -176,7 +176,7 @@
   - **Aceite:** o teste `test_rn009_ponta_a_ponta_envelope_v3_e_v4` passa.
   - **Commit:**
 
-- [ ] **T-030** — Atualizar o README com as opções de política e câmbio, os arquivos padrão e o comportamento da moeda estrangeira.
+- [x] **T-030** — Atualizar o README com as opções de política e câmbio, os arquivos padrão e o comportamento da moeda estrangeira.
   - **Atende:** RN-011, RN-013, AMB-019, AMB-025 a AMB-029
   - **Aceite:** o teste `test_rn011_readme_documenta_politica_cambio_e_moeda` passa.
   - **Commit:**
