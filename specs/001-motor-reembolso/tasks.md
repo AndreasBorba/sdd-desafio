@@ -128,7 +128,7 @@
 
 ## Fase 8 — Correção de execução
 
-- [ ] **T-021** — Tornar o pacote instalável com `pyproject.toml` usando layout `src/` e documentar no README os passos de instalação, execução e testes no PowerShell.
+- [x] **T-021** — Tornar o pacote instalável com `pyproject.toml` usando layout `src/` e documentar no README os passos de instalação, execução e testes no PowerShell.
   - **Atende:** RN-011
   - **Aceite:** após criar e ativar `.venv`, executar `pip install -e .` e `pip install pytest`, o comando `python -m reembolso calcular --input exemplos\despesas-exemplo.json --output resultado.json` funciona a partir da raiz, cria o arquivo e retorna código 0; o teste `test_rn011_comando_executa_a_partir_da_raiz` passa executando o comando em processo separado e sem depender do `pytest.ini`.
   - **README:** documentar em PowerShell a criação e ativação de `.venv`, instalação editável, instalação do pytest, execução da CLI e execução dos testes.

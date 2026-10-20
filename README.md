@@ -3,13 +3,22 @@
 CLI em Python que calcula o reembolso de despesas corporativas a partir de um
 arquivo JSON e grava os itens processados e o resumo em outro JSON.
 
-## Executar e testar
+## Instalar, executar e testar
 
-No PowerShell, na raiz do projeto:
+No PowerShell, a partir da raiz do projeto, crie e ative um ambiente virtual,
+instale o pacote em modo editável e instale o pytest:
 
 ```powershell
-$env:PYTHONPATH = "src"
-python -m reembolso calcular --input exemplos/despesas-exemplo.json --output resultado.json
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -e .
+pip install pytest
+```
+
+Com o ambiente virtual ativo, execute a CLI e rode os testes:
+
+```powershell
+python -m reembolso calcular --input exemplos\despesas-exemplo.json --output resultado.json
 pytest -q
 ```
 
