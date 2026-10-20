@@ -54,7 +54,7 @@
   - **Aceite:** o teste `test_rn005_duplica_recusa_e_identifica_despesa_mantida` passa.
   - **Commit:**
 
-- [ ] **T-009** — Implementar a etapa 6: exigir nota fiscal individualmente para valores acima de R$ 100,00 e recusar os itens sem nota antes do cálculo dos tetos.
+- [x] **T-009** — Implementar a etapa 6: exigir nota fiscal individualmente para valores acima de R$ 100,00 e recusar os itens sem nota antes do cálculo dos tetos.
   - **Atende:** RN-006, AMB-005, AMB-006
   - **Aceite:** o teste `test_rn006_nota_fiscal_por_despesa_e_limite_exato` passa.
   - **Commit:**
