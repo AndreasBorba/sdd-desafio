@@ -141,7 +141,7 @@
   - **Aceite:** o teste `test_rn012_carrega_politica_externa_com_validacao_decimal` passa.
   - **Commit:**
 
-- [ ] **T-023** — Adicionar as opções opcionais `--politica` e `--cambio` à CLI e usar os arquivos padrão distribuídos quando forem omitidas.
+- [x] **T-023** — Adicionar as opções opcionais `--politica` e `--cambio` à CLI e usar os arquivos padrão distribuídos quando forem omitidas.
   - **Atende:** RN-010, RN-011, RN-012, RN-013, AMB-019
   - **Aceite:** o teste `test_rn011_opcoes_politica_cambio_e_padroes` passa.
   - **Commit:**
