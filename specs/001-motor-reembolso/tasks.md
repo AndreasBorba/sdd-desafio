@@ -95,7 +95,7 @@
 
 ## Fase 4 — Saída e resumo
 
-- [ ] **T-016** — Montar e serializar o JSON de saída com os campos e status definidos, incluindo os resultados por item e o resumo.
+- [x] **T-016** — Montar e serializar o JSON de saída com os campos e status definidos, incluindo os resultados por item e o resumo.
   - **Atende:** RN-001, RN-002, RN-005, RN-006, RN-007, RN-008, RN-009
   - **Aceite:** o teste `test_rn009_serializa_itens_e_resumo_no_formato_da_spec` passa.
   - **Commit:**

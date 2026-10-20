@@ -243,3 +243,74 @@ def ler_entrada(caminho: str | Path) -> EntradaExecucao:
         ) from erro
 
     return converter_entrada(dados)
+
+
+def montar_saida(resultado: Any) -> dict[str, Any]:
+    itens = []
+    for item in resultado.resultados:
+        dados_item = {
+            "id": item.id,
+            "valor_solicitado": item.valor_solicitado,
+            "valor_reembolsavel": item.valor_reembolsavel,
+            "status": item.status,
+            "motivo": item.motivo,
+        }
+        if item.despesa_mantida is not None:
+            dados_item["despesa_mantida"] = item.despesa_mantida
+        dados_item["alertas"] = list(item.alertas)
+        itens.append(dados_item)
+
+    resumo = resultado.resumo
+    return {
+        "itens": itens,
+        "resumo": {
+            "total_solicitado": resumo.total_solicitado,
+            "total_reembolsavel": resumo.total_reembolsavel,
+            "total_recusado": resumo.total_recusado,
+            "contagem_por_status": dict(resumo.contagem_por_status),
+        },
+    }
+
+
+def _serializar_json(valor: Any, nivel: int = 0) -> str:
+    recuo = "  " * nivel
+    recuo_interno = "  " * (nivel + 1)
+
+    if valor is None:
+        return "null"
+    if isinstance(valor, bool):
+        return "true" if valor else "false"
+    if isinstance(valor, str):
+        return json.dumps(valor, ensure_ascii=False)
+    if isinstance(valor, Decimal):
+        if not valor.is_finite():
+            raise ValueError("Não é possível serializar Decimal não finito como JSON.")
+        return format(valor.quantize(Decimal("0.01")), "f")
+    if isinstance(valor, int):
+        return str(valor)
+    if isinstance(valor, list):
+        if not valor:
+            return "[]"
+        elementos = [
+            f"{recuo_interno}{_serializar_json(item, nivel + 1)}"
+            for item in valor
+        ]
+        return "[\n" + ",\n".join(elementos) + f"\n{recuo}]"
+    if isinstance(valor, dict):
+        if not valor:
+            return "{}"
+        membros = []
+        for chave, item in valor.items():
+            if not isinstance(chave, str):
+                raise TypeError("As chaves de objetos JSON devem ser textos.")
+            chave_json = json.dumps(chave, ensure_ascii=False)
+            membros.append(
+                f"{recuo_interno}{chave_json}: "
+                f"{_serializar_json(item, nivel + 1)}"
+            )
+        return "{\n" + ",\n".join(membros) + f"\n{recuo}}}"
+    raise TypeError(f"Tipo não serializável como JSON: {type(valor).__name__}.")
+
+
+def serializar_saida(resultado: Any) -> str:
+    return _serializar_json(montar_saida(resultado)) + "\n"
