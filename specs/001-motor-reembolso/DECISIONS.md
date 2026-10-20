@@ -10,6 +10,22 @@ Ordem cronológica inversa: a mais recente primeiro.
 
 ---
 
+## D-004 — Registra o envelope do Dia 2 e a política v4 · 2026-10-20
+
+**Gatilho:** envelope lacrado do Dia 2 (política v4).
+
+**O que mudou na spec:** AMB-019 a AMB-032 definem política externa, seleção por centro de custo, herança de categorias, limite zero, periodicidade, metadados informativos, moeda original, câmbio, arredondamento, duplicatas em moeda estrangeira, campos de saída e viagem inferida. RN-001 a RN-013 e os schemas de entrada e saída foram atualizados; a ordem de aplicação foi substituída pelos dez passos do envelope e foram adicionados os aceites concretos dos arquivos de despesas do Dia 2.
+
+**Por quê:** fazer a especificação refletir a política v4 distribuída em arquivo e os casos de borda do envelope, sem codificar limites no produto.
+
+**O que isso invalidou:** a política constante no código; o teste de ponta a ponta antigo passa a usar uma política equivalente à v3 para manter seus resultados anteriores.
+
+**Tasks afetadas:** T-002, T-016, T-017, T-018, T-019 e T-020, além das novas T-022 a T-030. T-018 conserva o aceite anterior usando política equivalente à v3; as novas tasks cobrem a política externa, câmbio, saída, aceites v3/v4 e documentação.
+
+**Custo:** preencher depois da execução das tasks.
+
+---
+
 ## D-003 — Registra a interface fixa da CLI · 2026-10-20
 
 **Gatilho:** interface fixa do enunciado não estava na spec; a primeira implementação usou caminhos posicionais.

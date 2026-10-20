@@ -111,7 +111,7 @@
 
 - [x] **T-018** — Executar a CLI com o JSON de exemplo e verificar os 14 itens, os resultados e os totais esperados na spec.
   - **Atende:** RN-001, RN-002, RN-003, RN-004, RN-005, RN-006, RN-007, RN-008, RN-009
-  - **Aceite:** o teste `test_rn009_ponta_a_ponta_json_de_exemplo` passa.
+  - **Aceite:** o teste `test_rn009_ponta_a_ponta_json_de_exemplo` passa usando uma política equivalente à v3.
   - **Commit:**
 
 - [x] **T-019** — Documentar no README como executar e testar o projeto e como usar a CLI com o formato de entrada e saída definido.
@@ -134,6 +134,53 @@
   - **README:** documentar em PowerShell a criação e ativação de `.venv`, instalação editável, instalação do pytest, execução da CLI e execução dos testes.
   - **Commit:**
 
+## Fase 5 — Envelope
+
+- [ ] **T-022** — Carregar a política externa e validar JSON, presença de "padrao", limites não negativos e periodicidades conhecidas, lendo os números como `Decimal`.
+  - **Atende:** RN-010, RN-012, AMB-019, AMB-024
+  - **Aceite:** o teste `test_rn012_carrega_politica_externa_com_validacao_decimal` passa.
+  - **Commit:**
+
+- [ ] **T-023** — Adicionar as opções opcionais `--politica` e `--cambio` à CLI e usar os arquivos padrão distribuídos quando forem omitidas.
+  - **Atende:** RN-010, RN-011, RN-012, RN-013, AMB-019
+  - **Aceite:** o teste `test_rn011_opcoes_politica_cambio_e_padroes` passa.
+  - **Commit:**
+
+- [ ] **T-024** — Selecionar limites pelo centro de custo, aplicar a herança de "padrao" e recusar limite zero como categoria fora da política.
+  - **Atende:** RN-003, RN-012, AMB-020, AMB-021, AMB-022
+  - **Aceite:** o teste `test_rn003_politica_por_centro_de_custo_herda_padrao_e_recusa_limite_zero` passa.
+  - **Commit:**
+
+- [ ] **T-025** — Aplicar periodicidades "dia" e "diaria" para categorias da política e aceitar categorias definidas no arquivo, mantendo a ampliação de viagem somente para alimentação e transporte_urbano.
+  - **Atende:** RN-007, RN-008, RN-012, AMB-003, AMB-023
+  - **Aceite:** o teste `test_rn008_periodicidade_e_categoria_definidas_na_politica` passa.
+  - **Commit:**
+
+- [ ] **T-026** — Resolver a cotação pela data da despesa ou pela mais recente nos cinco dias anteriores, converter e arredondar em BRL uma única vez e tratar indisponibilidade de câmbio.
+  - **Atende:** RN-001, RN-006, RN-010, RN-013, AMB-025, AMB-026, AMB-027
+  - **Aceite:** o teste `test_rn013_converte_moeda_com_arredondamento_e_janela_de_cambio` passa.
+  - **Commit:**
+
+- [ ] **T-027** — Incluir moeda e valor original na identificação de duplicatas.
+  - **Atende:** RN-005, AMB-028
+  - **Aceite:** o teste `test_rn005_duplicata_exige_mesma_moeda_e_valor_original` passa.
+  - **Commit:**
+
+- [ ] **T-028** — Serializar os campos de moeda original e de câmbio apenas nos itens estrangeiros aplicáveis, mantendo valores solicitados e reembolsáveis em BRL e sem converter estornos estrangeiros ou itens sem cotação.
+  - **Atende:** RN-002, RN-009, RN-013, AMB-029, AMB-031, AMB-032
+  - **Aceite:** o teste `test_rn013_serializa_campos_de_moeda_sem_taxa_quando_sem_conversao` passa.
+  - **Commit:**
+
+- [ ] **T-029** — Validar ponta a ponta o resultado v3 preservado e a política v4 nos três arquivos de despesas definidos no envelope.
+  - **Atende:** RN-001 a RN-013, AMB-019 a AMB-030
+  - **Aceite:** o teste `test_rn009_ponta_a_ponta_envelope_v3_e_v4` passa.
+  - **Commit:**
+
+- [ ] **T-030** — Atualizar o README com as opções de política e câmbio, os arquivos padrão e o comportamento da moeda estrangeira.
+  - **Atende:** RN-011, RN-013, AMB-019, AMB-025 a AMB-029
+  - **Aceite:** o teste `test_rn011_readme_documenta_politica_cambio_e_moeda` passa.
+  - **Commit:**
+
 ---
 
 ## Cobertura
@@ -141,10 +188,12 @@
 | Regra da spec | Task | Teste |
 |---|---|---|
 | RN-001 | T-004 | `test_rn001_arredonda_valor_e_normaliza_categoria` |
+| RN-001 | T-026 | `test_rn013_converte_moeda_com_arredondamento_e_janela_de_cambio` |
 | RN-002 | T-005 | `test_rn002_estorno_nao_altera_teto` |
 | RN-003 | T-006 | `test_rn003_categoria_fora_da_politica_nao_gasta_teto` |
 | RN-004 | T-007 | `test_rn004_periodo_inclui_inicio_e_fim` |
 | RN-005 | T-008 | `test_rn005_duplica_recusa_e_identifica_despesa_mantida` |
+| RN-005 | T-027 | `test_rn005_duplicata_exige_mesma_moeda_e_valor_original` |
 | RN-006 | T-009 | `test_rn006_nota_fiscal_por_despesa_e_limite_exato` |
 | RN-007 | T-010 | `test_rn007_inferencia_viagem_considera_hospedagem_qualificada` |
 | RN-008 | T-011 | `test_rn008_aplica_teto_diario_e_distribui_excedente` |
@@ -153,8 +202,18 @@
 | RN-010 | T-014 | `test_rn010_entrada_invalida_tipos_datas_e_periodo` |
 | RN-010 | T-015 | `test_rn010_entrada_invalida_arquivo_e_json` |
 | RN-010 | T-017 | `test_rn010_codigos_de_saida` |
+| RN-010 | T-022 | `test_rn012_carrega_politica_externa_com_validacao_decimal` |
+| RN-010 | T-026 | `test_rn013_converte_moeda_com_arredondamento_e_janela_de_cambio` |
 | RN-011 | T-020 | `test_rn011_interface_calcular_input_output` |
 | RN-011 | T-021 | `test_rn011_comando_executa_a_partir_da_raiz` |
+| RN-011 | T-023 | `test_rn011_opcoes_politica_cambio_e_padroes` |
+| RN-011 | T-030 | `test_rn011_readme_documenta_politica_cambio_e_moeda` |
+| RN-012 | T-022 | `test_rn012_carrega_politica_externa_com_validacao_decimal` |
+| RN-012 | T-024 | `test_rn003_politica_por_centro_de_custo_herda_padrao_e_recusa_limite_zero` |
+| RN-012 | T-025 | `test_rn008_periodicidade_e_categoria_definidas_na_politica` |
+| RN-013 | T-026 | `test_rn013_converte_moeda_com_arredondamento_e_janela_de_cambio` |
+| RN-013 | T-028 | `test_rn013_serializa_campos_de_moeda_sem_taxa_quando_sem_conversao` |
+| RN-013 | T-029 | `test_rn009_ponta_a_ponta_envelope_v3_e_v4` |
 | AMB-001 | T-011 | `test_rn008_aplica_teto_diario_e_distribui_excedente` |
 | AMB-002 | T-011 | `test_rn008_aplica_teto_diario_e_distribui_excedente` |
 | AMB-003 | T-010 | `test_rn007_inferencia_viagem_considera_hospedagem_qualificada` |
@@ -173,5 +232,20 @@
 | AMB-016 | T-011 | `test_rn008_aplica_teto_diario_e_distribui_excedente` |
 | AMB-017 | T-011 | `test_rn008_aplica_teto_diario_e_distribui_excedente` |
 | AMB-018 | T-011 | `test_rn008_aplica_teto_diario_e_distribui_excedente` |
+| AMB-019 | T-022 | `test_rn012_carrega_politica_externa_com_validacao_decimal` |
+| AMB-019 | T-023 | `test_rn011_opcoes_politica_cambio_e_padroes` |
+| AMB-020 | T-024 | `test_rn003_politica_por_centro_de_custo_herda_padrao_e_recusa_limite_zero` |
+| AMB-021 | T-024 | `test_rn003_politica_por_centro_de_custo_herda_padrao_e_recusa_limite_zero` |
+| AMB-022 | T-024 | `test_rn003_politica_por_centro_de_custo_herda_padrao_e_recusa_limite_zero` |
+| AMB-023 | T-025 | `test_rn008_periodicidade_e_categoria_definidas_na_politica` |
+| AMB-024 | T-022 | `test_rn012_carrega_politica_externa_com_validacao_decimal` |
+| AMB-025 | T-026 | `test_rn013_converte_moeda_com_arredondamento_e_janela_de_cambio` |
+| AMB-026 | T-026 | `test_rn013_converte_moeda_com_arredondamento_e_janela_de_cambio` |
+| AMB-027 | T-026 | `test_rn013_converte_moeda_com_arredondamento_e_janela_de_cambio` |
+| AMB-028 | T-027 | `test_rn005_duplicata_exige_mesma_moeda_e_valor_original` |
+| AMB-029 | T-028 | `test_rn013_serializa_campos_de_moeda_sem_taxa_quando_sem_conversao` |
+| AMB-030 | T-029 | `test_rn009_ponta_a_ponta_envelope_v3_e_v4` |
+| AMB-031 | T-028 | `test_rn013_serializa_campos_de_moeda_sem_taxa_quando_sem_conversao` |
+| AMB-032 | T-028 | `test_rn013_serializa_campos_de_moeda_sem_taxa_quando_sem_conversao` |
 
 **RN ou AMB sem task:** nenhum.
