@@ -3,6 +3,8 @@
 from collections.abc import Mapping
 from datetime import date
 from decimal import Decimal, InvalidOperation
+import json
+from pathlib import Path
 import re
 from typing import Any
 
@@ -218,3 +220,26 @@ def converter_entrada(dados: Any) -> EntradaExecucao:
         periodo=periodo,
         despesas=despesas,
     )
+
+
+def ler_entrada(caminho: str | Path) -> EntradaExecucao:
+    caminho_entrada = Path(caminho)
+    try:
+        conteudo = caminho_entrada.read_text(encoding="utf-8")
+    except FileNotFoundError as erro:
+        raise ErroEntrada(
+            f"Arquivo de entrada não encontrado: {caminho_entrada}"
+        ) from erro
+    except UnicodeDecodeError as erro:
+        raise ErroEntrada(
+            f"O arquivo de entrada não contém texto UTF-8 válido: {caminho_entrada}"
+        ) from erro
+
+    try:
+        dados = json.loads(conteudo, parse_float=Decimal)
+    except json.JSONDecodeError as erro:
+        raise ErroEntrada(
+            f"JSON inválido no arquivo de entrada: {erro.msg}."
+        ) from erro
+
+    return converter_entrada(dados)

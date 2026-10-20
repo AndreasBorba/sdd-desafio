@@ -88,7 +88,7 @@
   - **Aceite:** o teste `test_rn010_entrada_invalida_tipos_datas_e_periodo` passa.
   - **Commit:**
 
-- [ ] **T-015** — Tratar arquivo inexistente e JSON malformado como entrada inválida, sem calcular despesas nem gerar saída.
+- [x] **T-015** — Tratar arquivo inexistente e JSON malformado como entrada inválida, sem calcular despesas nem gerar saída.
   - **Atende:** RN-010
   - **Aceite:** o teste `test_rn010_entrada_invalida_arquivo_e_json` passa.
   - **Commit:**
