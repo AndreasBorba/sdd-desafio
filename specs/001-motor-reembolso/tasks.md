@@ -17,7 +17,7 @@
   - **Aceite:** o teste `test_rn001_pacote_base_e_importavel` passa.
   - **Commit:**
 
-- [ ] **T-002** — Centralizar a configuração da política: categorias válidas, tetos, ampliação na viagem e limiar da nota fiscal.
+- [x] **T-002** — Centralizar a configuração da política: categorias válidas, tetos, ampliação na viagem e limiar da nota fiscal.
   - **Atende:** RN-008, AMB-001, AMB-002, AMB-003, AMB-004, AMB-008
   - **Aceite:** o teste `test_rn008_configuracao_define_tetos_da_politica` passa.
   - **Commit:**
