@@ -83,7 +83,7 @@
   - **Aceite:** o teste `test_rn010_entrada_invalida_campo_obrigatorio` passa.
   - **Commit:**
 
-- [ ] **T-014** — Validar tipos, valores numéricos, datas e a ordem de início e fim do período antes do cálculo.
+- [x] **T-014** — Validar tipos, valores numéricos, datas e a ordem de início e fim do período antes do cálculo.
   - **Atende:** RN-010
   - **Aceite:** o teste `test_rn010_entrada_invalida_tipos_datas_e_periodo` passa.
   - **Commit:**
