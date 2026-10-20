@@ -11,14 +11,23 @@ def filtrar_duplicatas(
 ) -> tuple[list[Despesa], list[ResultadoDespesa]]:
     despesas_pendentes = []
     resultados_recusados = []
-    primeiras_ocorrencias: dict[tuple[date, str, str, Decimal], str] = {}
+    primeiras_ocorrencias: dict[
+        tuple[date, str, str, str, Decimal],
+        str,
+    ] = {}
 
     for despesa in despesas:
+        valor_original = (
+            despesa.valor
+            if despesa.valor_original is None
+            else despesa.valor_original
+        )
         chave = (
             despesa.data,
             despesa.categoria,
             despesa.fornecedor,
-            despesa.valor,
+            despesa.moeda,
+            valor_original,
         )
         despesa_mantida = primeiras_ocorrencias.get(chave)
         if despesa_mantida is not None:

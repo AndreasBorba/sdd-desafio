@@ -161,7 +161,7 @@
   - **Aceite:** o teste `test_rn013_converte_moeda_com_arredondamento_e_janela_de_cambio` passa.
   - **Commit:**
 
-- [ ] **T-027** — Incluir moeda e valor original na identificação de duplicatas.
+- [x] **T-027** — Incluir moeda e valor original na identificação de duplicatas.
   - **Atende:** RN-005, AMB-028
   - **Aceite:** o teste `test_rn005_duplicata_exige_mesma_moeda_e_valor_original` passa.
   - **Commit:**
