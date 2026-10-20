@@ -49,7 +49,7 @@
   - **Aceite:** o teste `test_rn004_periodo_inclui_inicio_e_fim` passa.
   - **Commit:**
 
-- [ ] **T-008** — Implementar a etapa 5: identificar duplicatas pelos campos definidos, manter a primeira ocorrência e recusar as demais sem consumir teto.
+- [x] **T-008** — Implementar a etapa 5: identificar duplicatas pelos campos definidos, manter a primeira ocorrência e recusar as demais sem consumir teto.
   - **Atende:** RN-005, AMB-011, AMB-012
   - **Aceite:** o teste `test_rn005_duplica_recusa_e_identifica_despesa_mantida` passa.
   - **Commit:**
