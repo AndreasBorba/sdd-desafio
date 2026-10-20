@@ -65,12 +65,13 @@ O sistema passa a calcular, para um colaborador e um período, quais despesas s�
 | valor_solicitado | número | valor original da despesa, antes do cálculo |
 | valor_reembolsavel | número | valor que a empresa paga |
 | status | texto | APROVADO, PARCIAL, RECUSADO ou ESTORNO |
-| motivo | texto | código padronizado do motivo da decisão; quando não houver regra definida, DECISÃO PENDENTE |
+| motivo | texto | vazio para APROVADO; LIMITE_EXCEDIDO para PARCIAL; CATEGORIA_FORA_POLITICA, FORA_COMPETENCIA, DUPLICADA, NF_AUSENTE ou LIMITE_EXCEDIDO para RECUSADO; ESTORNO para ESTORNO. Se houver mais de um motivo de recusa, vale o da primeira regra da ordem de aplicação que recusou o item. |
+| despesa_mantida | texto | id da despesa mantida; aparece apenas quando o motivo é DUPLICADA |
 | alertas | lista | alertas da despesa, como VIAGEM_INFERIDA, DIARIAS_NAO_IDENTIFICADAS ou VALOR_ARREDONDADO |
-| total_solicitado | número | soma dos valores solicitados que não são estorno |
+| total_solicitado | número | soma dos valores solicitados dos itens que não são estorno |
 | total_reembolsavel | número | soma dos valores reembolsáveis |
-| total_recusado | número | soma do valor não pago; quando a regra não for definida, DECISÃO PENDENTE |
-| contagem_por_status | objeto | total por status |
+| total_recusado | número | total_solicitado menos total_reembolsavel, incluindo recusas inteiras e excedentes cortados nos itens PARCIAL; estornos não entram |
+| contagem_por_status | objeto | quantidade de itens por status, incluindo estornos |
 
 Exemplo completo de entrada e saída:
 
@@ -113,10 +114,15 @@ Exemplo completo de entrada e saída:
     {"id": "d-014", "valor_solicitado": 61.00, "valor_reembolsavel": 60.00, "status": "PARCIAL", "motivo": "LIMITE_EXCEDIDO", "alertas": []}
   ],
   "resumo": {
-    "total_solicitado": "DECISÃO PENDENTE",
-    "total_reembolsavel": "DECISÃO PENDENTE",
-    "total_recusado": "DECISÃO PENDENTE",
-    "contagem_por_status": "DECISÃO PENDENTE"
+    "total_solicitado": 739.73,
+    "total_reembolsavel": 688.23,
+    "total_recusado": 51.50,
+    "contagem_por_status": {
+      "APROVADO": 3,
+      "PARCIAL": 2,
+      "RECUSADO": 1,
+      "ESTORNO": 1
+    }
   }
 }
 ```
@@ -377,8 +383,3 @@ O sistema está pronto quando:
 - [ ] d-010 e d-011 recebem o alerta VIAGEM_INFERIDA e d-011 paga 33.33 no teto ampliado de viagem.
 - [ ] d-008 é RECUSADO por FORA_COMPETENCIA, mesmo sendo uma despesa válida de outra categoria.
 - [ ] o resumo final conta 4 aprovados, 2 parciais, 7 recusados e 1 estorno para o exemplo completo dos itens d-001 a d-014.
-
-## 10. O que fica em aberto
-
-- DECISÃO PENDENTE: a padronização final dos códigos de motivo para categorias fora da política e para o campo total_recusado do resumo, porque as decisões fornecidas não definem a convenção exata do código nem a regra de somatória do valor não pago em todos os casos.
-- DECISÃO PENDENTE: a forma exata de registrar o id da despesa mantida em itens duplicados no campo motivo, quando o sistema precisa manter a leitura humana e a máquina no mesmo registro.
