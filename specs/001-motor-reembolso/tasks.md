@@ -136,7 +136,7 @@
 
 ## Fase 5 — Envelope
 
-- [ ] **T-022** — Carregar a política externa e validar JSON, presença de "padrao", limites não negativos e periodicidades conhecidas, lendo os números como `Decimal`.
+- [x] **T-022** — Carregar a política externa e validar JSON, presença de "padrao", limites não negativos e periodicidades conhecidas, lendo os números como `Decimal`.
   - **Atende:** RN-010, RN-012, AMB-019, AMB-024
   - **Aceite:** o teste `test_rn012_carrega_politica_externa_com_validacao_decimal` passa.
   - **Commit:**
