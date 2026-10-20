@@ -34,7 +34,7 @@
   - **Aceite:** o teste `test_rn001_arredonda_valor_e_normaliza_categoria` passa.
   - **Commit:**
 
-- [ ] **T-005** — Implementar a etapa 2: separar estornos, atribuindo status e valor reembolsável conforme a spec.
+- [x] **T-005** — Implementar a etapa 2: separar estornos, atribuindo status e valor reembolsável conforme a spec.
   - **Atende:** RN-002, AMB-014
   - **Aceite:** o teste `test_rn002_estorno_nao_altera_teto` passa.
   - **Commit:**
