@@ -171,7 +171,7 @@
   - **Aceite:** o teste `test_rn013_serializa_campos_de_moeda_sem_taxa_quando_sem_conversao` passa.
   - **Commit:**
 
-- [ ] **T-029** — Validar ponta a ponta o resultado v3 preservado e a política v4 nos três arquivos de despesas definidos no envelope.
+- [x] **T-029** — Validar ponta a ponta o resultado v3 preservado e a política v4 nos três arquivos de despesas definidos no envelope.
   - **Atende:** RN-001 a RN-013, AMB-019 a AMB-030
   - **Aceite:** o teste `test_rn009_ponta_a_ponta_envelope_v3_e_v4` passa.
   - **Commit:**
