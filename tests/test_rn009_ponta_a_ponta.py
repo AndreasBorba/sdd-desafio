@@ -10,6 +10,28 @@ def test_rn009_ponta_a_ponta_json_de_exemplo(tmp_path):
     raiz = Path(__file__).resolve().parents[1]
     entrada = raiz / "exemplos" / "despesas-exemplo.json"
     saida = tmp_path / "resultado.json"
+    politica_v3 = tmp_path / "politica-v3.json"
+    politica_v3.write_text(
+        json.dumps(
+            {
+                "padrao": {
+                    "alimentacao": {
+                        "limite": 60.00,
+                        "periodicidade": "dia",
+                    },
+                    "transporte_urbano": {
+                        "limite": 80.00,
+                        "periodicidade": "dia",
+                    },
+                    "hospedagem": {
+                        "limite": 250.00,
+                        "periodicidade": "diaria",
+                    },
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
     ambiente = os.environ.copy()
     caminho_src = str(raiz / "src")
     ambiente["PYTHONPATH"] = os.pathsep.join(
@@ -28,6 +50,8 @@ def test_rn009_ponta_a_ponta_json_de_exemplo(tmp_path):
             str(entrada),
             "--output",
             str(saida),
+            "--politica",
+            str(politica_v3),
         ],
         cwd=raiz,
         env=ambiente,

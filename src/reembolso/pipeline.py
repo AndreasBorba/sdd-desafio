@@ -1,5 +1,8 @@
 """Coordenação do cálculo das despesas."""
 
+from collections.abc import Mapping
+from typing import Any
+
 from reembolso.modelos import EntradaExecucao, ResultadoExecucao
 from reembolso.regras.etapa_01_normalizacao import normalizar_despesas
 from reembolso.regras.etapa_02_estornos import separar_estornos
@@ -12,14 +15,21 @@ from reembolso.regras.etapa_08_tetos import aplicar_tetos
 from reembolso.regras.etapa_09_resumo import calcular_resumo
 
 
-def processar(entrada: EntradaExecucao) -> ResultadoExecucao:
+def processar(
+    entrada: EntradaExecucao,
+    politica: Mapping[str, Any] | None = None,
+) -> ResultadoExecucao:
     despesas = normalizar_despesas(entrada.despesas)
     resultados = []
 
     despesas, estornos = separar_estornos(despesas)
     resultados.extend(estornos)
 
-    despesas, recusadas = filtrar_categorias(despesas)
+    despesas, recusadas = filtrar_categorias(
+        despesas,
+        politica,
+        entrada.colaborador.centro_custo,
+    )
     resultados.extend(recusadas)
 
     despesas, recusadas = filtrar_por_periodo(despesas, entrada.periodo)

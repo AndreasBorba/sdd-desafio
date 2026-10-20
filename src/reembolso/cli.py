@@ -77,13 +77,13 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     try:
         entrada = ler_entrada(argumentos.caminho_entrada)
-        carregar_politica(argumentos.caminho_politica)
+        politica = carregar_politica(argumentos.caminho_politica)
         _validar_arquivo_cambio(argumentos.caminho_cambio)
     except (ErroEntrada, ErroPolitica) as erro:
         print(str(erro), file=sys.stderr)
         return 1
 
-    resultado = processar(entrada)
+    resultado = processar(entrada, politica)
     conteudo = serializar_saida(resultado)
     try:
         Path(argumentos.caminho_saida).write_text(conteudo, encoding="utf-8")

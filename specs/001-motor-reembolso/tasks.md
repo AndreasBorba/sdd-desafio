@@ -146,7 +146,7 @@
   - **Aceite:** o teste `test_rn011_opcoes_politica_cambio_e_padroes` passa.
   - **Commit:**
 
-- [ ] **T-024** — Selecionar limites pelo centro de custo, aplicar a herança de "padrao" e recusar limite zero como categoria fora da política.
+- [x] **T-024** — Selecionar limites pelo centro de custo, aplicar a herança de "padrao" e recusar limite zero como categoria fora da política.
   - **Atende:** RN-003, RN-012, AMB-020, AMB-021, AMB-022
   - **Aceite:** o teste `test_rn003_politica_por_centro_de_custo_herda_padrao_e_recusa_limite_zero` passa.
   - **Commit:**

@@ -5,6 +5,7 @@ from decimal import Decimal
 import json
 from pathlib import Path
 from typing import Any
+import unicodedata
 
 
 class ErroPolitica(Exception):
@@ -12,6 +13,15 @@ class ErroPolitica(Exception):
 
 
 _PERIODICIDADES_VALIDAS = frozenset({"dia", "diaria"})
+
+
+def _normalizar_categoria(categoria: str) -> str:
+    sem_acentos = "".join(
+        caractere
+        for caractere in unicodedata.normalize("NFD", categoria)
+        if not unicodedata.combining(caractere)
+    )
+    return sem_acentos.strip().casefold()
 
 
 def _validar_categorias(categorias: Any, caminho: str) -> None:
@@ -78,3 +88,47 @@ def carregar_politica(caminho: str | Path) -> dict[str, Any]:
         _validar_categorias(categorias, f"centros_custo.{centro_custo}")
 
     return dict(dados)
+
+
+def resolver_regra_categoria(
+    politica: Mapping[str, Any],
+    centro_custo: str | None,
+    categoria: str,
+) -> Mapping[str, Any] | None:
+    """Resolve a regra específica do centro de custo ou herda de padrao."""
+    categorias_padrao = politica["padrao"]
+    regra_padrao = next(
+        (
+            regra
+            for nome, regra in categorias_padrao.items()
+            if _normalizar_categoria(nome) == _normalizar_categoria(categoria)
+        ),
+        None,
+    )
+
+    categorias_centro: Mapping[str, Any] | None = None
+    if centro_custo is not None:
+        chave_centro = centro_custo.strip().casefold()
+        centros_custo = politica.get("centros_custo", {})
+        categorias_centro = next(
+            (
+                categorias
+                for nome, categorias in centros_custo.items()
+                if nome.strip().casefold() == chave_centro
+            ),
+            None,
+        )
+
+    if categorias_centro is not None:
+        regra_centro = next(
+            (
+                regra
+                for nome, regra in categorias_centro.items()
+                if _normalizar_categoria(nome) == _normalizar_categoria(categoria)
+            ),
+            None,
+        )
+        if regra_centro is not None:
+            return regra_centro
+
+    return regra_padrao
