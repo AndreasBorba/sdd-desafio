@@ -22,7 +22,7 @@
   - **Aceite:** o teste `test_rn008_configuracao_define_tetos_da_politica` passa.
   - **Commit:**
 
-- [ ] **T-003** — Definir os modelos tipados da execução, despesas, resultados por item e resumo, preservando valores monetários decimais e a ordem de entrada.
+- [x] **T-003** — Definir os modelos tipados da execução, despesas, resultados por item e resumo, preservando valores monetários decimais e a ordem de entrada.
   - **Atende:** RN-001, RN-009
   - **Aceite:** o teste `test_rn001_modelos_preservam_valores_decimais_e_ordem` passa.
   - **Commit:**
