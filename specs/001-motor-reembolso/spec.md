@@ -175,9 +175,9 @@ Cada regra recebe um ID (`RN-001`, ...). As tasks vão referenciar esses IDs.
 
 ### RN-007 — Viagem inferida
 
-**Regra:** se existe uma hospedagem que passou pelos passos 3 a 6 da ordem de aplicação, o colaborador está em viagem do dia da despesa até esse dia mais o número de noites, inclusive. Hospedagem com status PARCIAL também conta. O alerta VIAGEM_INFERIDA aparece apenas em item de alimentação ou transporte, em dia de viagem, com valor reembolsável maior que o teto-base.
+**Regra:** se existe uma hospedagem que passou pelos passos 3 a 6 da ordem de aplicação, o colaborador está em viagem do dia da despesa até esse dia mais o número de noites, inclusive. Para identificar as noites, considera-se o primeiro número inteiro maior que zero seguido de "diária", "diárias", "noite" ou "noites", com espaço opcional entre o número e a palavra, ignorando maiúsculas e acentos. Números por extenso não são reconhecidos. Se não houver trecho válido, considera-se 1 noite e a hospedagem recebe o alerta DIARIAS_NAO_IDENTIFICADAS. Hospedagem com status PARCIAL também conta. O alerta VIAGEM_INFERIDA aparece apenas em item de alimentação ou transporte, em dia de viagem, com valor reembolsável maior que o teto-base.
 **Origem:** decisões AMB-007 e AMB-008
-**Aceite:** d-010, hospedagem de 2 diárias, torna os dias 2026-07-14, 2026-07-15 e 2026-07-16 de viagem. d-011 está em dia de viagem, mas não recebe VIAGEM_INFERIDA porque seu valor reembolsável de 33.33 não supera o teto-base de alimentação de 60.00.
+**Aceite:** d-010, hospedagem de 2 diárias, torna os dias 2026-07-14, 2026-07-15 e 2026-07-16 de viagem. d-011 está em dia de viagem, mas não recebe VIAGEM_INFERIDA porque seu valor reembolsável de 33.33 não supera o teto-base de alimentação de 60.00. "Hotel Rio - 2 diarias" identifica 2 noites; "Airbnb 3 noites" identifica 3 noites; "Hotel 2 DIÁRIAS" identifica 2 noites; "Hospedagem" identifica 1 noite e recebe DIARIAS_NAO_IDENTIFICADAS; "2 diarias e 1 noite" identifica 2 noites.
 
 ### RN-008 — Teto diário e pagamento parcial
 
@@ -225,7 +225,8 @@ Cada regra recebe um ID (`RN-001`, ...). As tasks vão referenciar esses IDs.
 
 **Texto original do RH:** "Hospedagem tem limite de R$ 250 por diária."
 **O que não está claro:** o que conta como diária e como ler a descrição de múltiplas noites.
-**Decisão:** "diária" é uma noite. O teto da despesa é R$ 250 vezes o número de noites, lido da descrição; se não for possível identificar, conta como 1 noite e o item recebe o alerta DIARIAS_NAO_IDENTIFICADAS.
+**Decisão:** "diária" é uma noite. O teto da despesa é R$ 250 vezes o número de noites, lido da descrição. Identifica-se o primeiro número inteiro maior que zero seguido de "diária", "diárias", "noite" ou "noites", com espaço opcional entre o número e a palavra, ignorando maiúsculas e acentos. Número por extenso não é reconhecido. Se não houver trecho válido, conta como 1 noite e o item recebe o alerta DIARIAS_NAO_IDENTIFICADAS.
+**Aceite:** "Hotel Rio - 2 diarias" identifica 2 noites; "Airbnb 3 noites" identifica 3 noites; "Hotel 2 DIÁRIAS" identifica 2 noites; "Hospedagem" identifica 1 noite e recebe DIARIAS_NAO_IDENTIFICADAS; "2 diarias e 1 noite" identifica 2 noites.
 **Justificativa:**
 **Regra afetada:** RN-007 e RN-008
 
