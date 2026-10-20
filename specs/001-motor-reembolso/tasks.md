@@ -12,7 +12,7 @@
 
 ## Fase 1 — Fundação
 
-- [ ] **T-001** — Criar a estrutura do pacote da aplicação e dos testes, separando as fronteiras de entrada, cálculo e saída conforme o plano.
+- [x] **T-001** — Criar a estrutura do pacote da aplicação e dos testes, separando as fronteiras de entrada, cálculo e saída conforme o plano.
   - **Atende:** RN-001
   - **Aceite:** o teste `test_rn001_pacote_base_e_importavel` passa.
   - **Commit:**
