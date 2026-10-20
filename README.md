@@ -1,3 +1,81 @@
+# Motor de reembolso
+
+CLI em Python que calcula o reembolso de despesas corporativas a partir de um
+arquivo JSON e grava os itens processados e o resumo em outro JSON.
+
+## Executar e testar
+
+No PowerShell, na raiz do projeto:
+
+```powershell
+$env:PYTHONPATH = "src"
+python -m reembolso exemplos/despesas-exemplo.json resultado.json
+pytest -q
+```
+
+A CLI recebe, nesta ordem, o caminho do arquivo de entrada e o caminho do
+arquivo de saída. Retorna código `0` em caso de sucesso, `1` para entrada
+inválida e `2` para erro de uso dos argumentos. Em entrada inválida, a
+mensagem é escrita em stderr e o arquivo de saída não é criado.
+
+## Formato dos arquivos
+
+A entrada contém um colaborador, o período e uma lista de despesas. Os campos
+obrigatórios são `colaborador.id`, `periodo.inicio`, `periodo.fim` e, para cada
+despesa, `id`, `data`, `categoria`, `fornecedor`, `valor` e `tem_nota_fiscal`.
+`colaborador.nome`, `colaborador.centro_custo`, `periodo.competencia` e
+`despesas[].descricao` são opcionais.
+
+Exemplo mínimo de entrada:
+
+```json
+{
+  "colaborador": {"id": "c-001"},
+  "periodo": {"inicio": "2026-07-01", "fim": "2026-07-31"},
+  "despesas": [
+    {
+      "id": "d-001",
+      "data": "2026-07-06",
+      "categoria": "alimentacao",
+      "fornecedor": "Restaurante",
+      "valor": 42.00,
+      "tem_nota_fiscal": true
+    }
+  ]
+}
+```
+
+A saída contém `itens`, com o resultado de cada despesa (`id`,
+`valor_solicitado`, `valor_reembolsavel`, `status`, `motivo` e `alertas`), e
+`resumo`, com os totais e a `contagem_por_status`. Itens duplicados também
+informam `despesa_mantida`.
+
+```json
+{
+  "itens": [
+    {
+      "id": "d-001",
+      "valor_solicitado": 42.00,
+      "valor_reembolsavel": 42.00,
+      "status": "APROVADO",
+      "motivo": "",
+      "alertas": []
+    }
+  ],
+  "resumo": {
+    "total_solicitado": 42.00,
+    "total_reembolsavel": 42.00,
+    "total_recusado": 0.00,
+    "contagem_por_status": {
+      "APROVADO": 1,
+      "PARCIAL": 0,
+      "RECUSADO": 0,
+      "ESTORNO": 0
+    }
+  }
+}
+```
+
 # Desafio Prático — Spec Driven Development
 
 Aula bônus de SDD, fechando a trilha:

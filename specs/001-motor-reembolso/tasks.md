@@ -114,7 +114,7 @@
   - **Aceite:** o teste `test_rn009_ponta_a_ponta_json_de_exemplo` passa.
   - **Commit:**
 
-- [ ] **T-019** — Documentar no README como executar e testar o projeto e como usar a CLI com o formato de entrada e saída definido.
+- [x] **T-019** — Documentar no README como executar e testar o projeto e como usar a CLI com o formato de entrada e saída definido.
   - **Atende:** RN-010
   - **Aceite:** o teste `test_rn010_comando_documentado_no_readme` passa.
   - **Commit:**
