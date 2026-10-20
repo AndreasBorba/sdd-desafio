@@ -78,7 +78,7 @@
 
 ## Fase 3 — Entrada inválida
 
-- [ ] **T-013** — Validar a presença dos campos obrigatórios antes de iniciar qualquer cálculo e informar o id da despesa quando disponível.
+- [x] **T-013** — Validar a presença dos campos obrigatórios antes de iniciar qualquer cálculo e informar o id da despesa quando disponível.
   - **Atende:** RN-010
   - **Aceite:** o teste `test_rn010_entrada_invalida_campo_obrigatorio` passa.
   - **Commit:**
