@@ -32,6 +32,10 @@ class Despesa:
     valor: Decimal
     tem_nota_fiscal: bool
     indice_original: int
+    moeda: str = "BRL"
+    valor_original: Decimal | None = None
+    taxa_cambio: Decimal | None = None
+    data_taxa_cambio: date | None = None
     descricao: str | None = None
     alertas: list[str] = field(default_factory=list)
 

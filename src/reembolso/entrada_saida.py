@@ -202,6 +202,18 @@ def converter_entrada(dados: Any) -> EntradaExecucao:
             if "descricao" in dados_despesa
             else None
         )
+        moeda = "BRL"
+        if "moeda" in dados_despesa:
+            moeda = _validar_texto(
+                dados_despesa["moeda"],
+                f"despesas[{indice}].moeda",
+                identificador,
+            ).strip().upper()
+            if re.fullmatch(r"[A-Z]{3}", moeda) is None:
+                raise ErroEntrada(
+                    f"Despesa {identificador}: o campo moeda deve conter "
+                    "três letras ISO 4217."
+                )
         despesas.append(
             Despesa(
                 id=identificador,
@@ -212,6 +224,8 @@ def converter_entrada(dados: Any) -> EntradaExecucao:
                 valor=valor,
                 tem_nota_fiscal=tem_nota_fiscal,
                 indice_original=indice,
+                moeda=moeda,
+                valor_original=valor,
             )
         )
 
@@ -236,7 +250,11 @@ def ler_entrada(caminho: str | Path) -> EntradaExecucao:
         ) from erro
 
     try:
-        dados = json.loads(conteudo, parse_float=Decimal)
+        dados = json.loads(
+            conteudo,
+            parse_float=Decimal,
+            parse_int=Decimal,
+        )
     except json.JSONDecodeError as erro:
         raise ErroEntrada(
             f"JSON inválido no arquivo de entrada: {erro.msg}."

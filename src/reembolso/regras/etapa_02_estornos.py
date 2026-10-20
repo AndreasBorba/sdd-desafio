@@ -16,7 +16,11 @@ def separar_estornos(
             resultados_estorno.append(
                 ResultadoDespesa(
                     id=despesa.id,
-                    valor_solicitado=despesa.valor,
+                    valor_solicitado=(
+                        Decimal("0.00")
+                        if despesa.moeda != "BRL"
+                        else despesa.valor
+                    ),
                     valor_reembolsavel=Decimal("0.00"),
                     status="ESTORNO",
                     motivo="ESTORNO",

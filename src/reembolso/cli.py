@@ -1,13 +1,11 @@
 """Fronteira de linha de comando da aplicação."""
 
 import argparse
-from collections.abc import Mapping
-from decimal import Decimal
-import json
 import sys
 from pathlib import Path
 from typing import Sequence
 
+from reembolso.cambio import ErroCambio, carregar_cambio
 from reembolso.entrada_saida import ErroEntrada, ler_entrada, serializar_saida
 from reembolso.pipeline import processar
 from reembolso.politica import ErroPolitica, carregar_politica
@@ -18,26 +16,6 @@ _DIRETORIO_EXEMPLOS = (
 )
 _POLITICA_PADRAO = _DIRETORIO_EXEMPLOS / "politica-v4.json"
 _CAMBIO_PADRAO = _DIRETORIO_EXEMPLOS / "cambio.json"
-
-
-def _validar_arquivo_cambio(caminho: str | Path) -> None:
-    arquivo = Path(caminho)
-    try:
-        conteudo = arquivo.read_text(encoding="utf-8")
-        dados = json.loads(
-            conteudo,
-            parse_float=Decimal,
-            parse_int=Decimal,
-        )
-    except (OSError, UnicodeDecodeError) as erro:
-        raise ErroEntrada(
-            f"Não foi possível ler o arquivo de câmbio: {arquivo}"
-        ) from erro
-    except json.JSONDecodeError as erro:
-        raise ErroEntrada(f"JSON inválido no arquivo de câmbio: {erro.msg}.") from erro
-
-    if not isinstance(dados, Mapping):
-        raise ErroEntrada("O arquivo de câmbio deve conter um objeto JSON.")
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -78,12 +56,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     try:
         entrada = ler_entrada(argumentos.caminho_entrada)
         politica = carregar_politica(argumentos.caminho_politica)
-        _validar_arquivo_cambio(argumentos.caminho_cambio)
-    except (ErroEntrada, ErroPolitica) as erro:
+        taxas_cambio = carregar_cambio(argumentos.caminho_cambio)
+    except (ErroCambio, ErroEntrada, ErroPolitica) as erro:
         print(str(erro), file=sys.stderr)
         return 1
 
-    resultado = processar(entrada, politica)
+    resultado = processar(entrada, politica, taxas_cambio)
     conteudo = serializar_saida(resultado)
     try:
         Path(argumentos.caminho_saida).write_text(conteudo, encoding="utf-8")

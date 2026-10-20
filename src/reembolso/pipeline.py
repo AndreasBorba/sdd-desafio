@@ -1,8 +1,12 @@
 """Coordenação do cálculo das despesas."""
 
 from collections.abc import Mapping
+from datetime import date
+from decimal import Decimal
 from typing import Any
 
+from reembolso.cambio import converter_moedas
+from reembolso.configuracao import LIMIAR_NOTA_FISCAL
 from reembolso.modelos import EntradaExecucao, ResultadoExecucao
 from reembolso.regras.etapa_01_normalizacao import normalizar_despesas
 from reembolso.regras.etapa_02_estornos import separar_estornos
@@ -18,12 +22,16 @@ from reembolso.regras.etapa_09_resumo import calcular_resumo
 def processar(
     entrada: EntradaExecucao,
     politica: Mapping[str, Any] | None = None,
+    taxas_cambio: Mapping[date, Mapping[str, Decimal]] | None = None,
 ) -> ResultadoExecucao:
     despesas = normalizar_despesas(entrada.despesas)
     resultados = []
 
     despesas, estornos = separar_estornos(despesas)
     resultados.extend(estornos)
+
+    despesas, recusadas = converter_moedas(despesas, taxas_cambio or {})
+    resultados.extend(recusadas)
 
     despesas, recusadas = filtrar_categorias(
         despesas,
@@ -38,7 +46,15 @@ def processar(
     despesas, recusadas = filtrar_duplicatas(despesas)
     resultados.extend(recusadas)
 
-    despesas, recusadas = filtrar_nota_fiscal(despesas)
+    limiar_nota_fiscal = (
+        politica.get("nota_fiscal_obrigatoria_acima_de", LIMIAR_NOTA_FISCAL)
+        if politica is not None
+        else LIMIAR_NOTA_FISCAL
+    )
+    despesas, recusadas = filtrar_nota_fiscal(
+        despesas,
+        limiar_nota_fiscal,
+    )
     resultados.extend(recusadas)
 
     dias_viagem, despesas = identificar_viagem(despesas)

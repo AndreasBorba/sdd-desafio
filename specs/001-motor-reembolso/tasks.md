@@ -156,7 +156,7 @@
   - **Aceite:** o teste `test_rn008_periodicidade_e_categoria_definidas_na_politica` passa.
   - **Commit:**
 
-- [ ] **T-026** — Resolver a cotação pela data da despesa ou pela mais recente nos cinco dias anteriores, converter e arredondar em BRL uma única vez e tratar indisponibilidade de câmbio.
+- [x] **T-026** — Resolver a cotação pela data da despesa ou pela mais recente nos cinco dias anteriores, converter e arredondar em BRL uma única vez e tratar indisponibilidade de câmbio.
   - **Atende:** RN-001, RN-006, RN-010, RN-013, AMB-025, AMB-026, AMB-027
   - **Aceite:** o teste `test_rn013_converte_moeda_com_arredondamento_e_janela_de_cambio` passa.
   - **Commit:**

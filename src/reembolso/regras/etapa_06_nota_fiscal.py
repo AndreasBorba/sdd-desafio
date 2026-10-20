@@ -8,12 +8,13 @@ from reembolso.modelos import Despesa, ResultadoDespesa
 
 def filtrar_nota_fiscal(
     despesas: list[Despesa],
+    limiar: Decimal = LIMIAR_NOTA_FISCAL,
 ) -> tuple[list[Despesa], list[ResultadoDespesa]]:
     despesas_pendentes = []
     resultados_recusados = []
 
     for despesa in despesas:
-        if despesa.valor > LIMIAR_NOTA_FISCAL and not despesa.tem_nota_fiscal:
+        if despesa.valor > limiar and not despesa.tem_nota_fiscal:
             resultados_recusados.append(
                 ResultadoDespesa(
                     id=despesa.id,
