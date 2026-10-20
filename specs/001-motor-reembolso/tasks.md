@@ -65,7 +65,7 @@
   - **Aceite de diárias:** o teste reconhece "Hotel Rio - 2 diarias" como 2 noites, "Airbnb 3 noites" como 3, "Hotel 2 DIÁRIAS" como 2, "Hotel 2diarias" como 2, "Hotel 1 noite" como 1 sem alerta e "2 diarias e 1 noite" como 2; "Hospedagem" sem número reconhecido, "0 noites" e "duas noites" resultam em 1 noite e no alerta DIARIAS_NAO_IDENTIFICADAS.
   - **Commit:**
 
-- [ ] **T-011** — Implementar a etapa 8: aplicar tetos agregados por dia, limites de viagem e prioridade por data e ordem do arquivo, sem tratamento especial para plantão ou fim de semana.
+- [x] **T-011** — Implementar a etapa 8: aplicar tetos agregados por dia, limites de viagem e prioridade por data e ordem do arquivo, sem tratamento especial para plantão ou fim de semana.
   - **Atende:** RN-008, AMB-001, AMB-002, AMB-003, AMB-004, AMB-008, AMB-016, AMB-017, AMB-018
   - **Aceite:** o teste `test_rn008_aplica_teto_diario_e_distribui_excedente` passa.
   - **Aceite de hospedagem:** o teste aplica o teto de R$ 250 por noite identificada: "Hotel Rio - 2 diarias" e "Hotel 2diarias" têm teto de R$ 500, "Airbnb 3 noites" tem teto de R$ 750 e "Hotel 1 noite" tem teto de R$ 250 sem alerta; "Hospedagem" sem número reconhecido, "0 noites" e "duas noites" têm teto de R$ 250 e recebem DIARIAS_NAO_IDENTIFICADAS.

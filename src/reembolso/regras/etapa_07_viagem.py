@@ -19,7 +19,7 @@ def _normalizar_texto(texto: str) -> str:
     )
 
 
-def _identificar_noites(descricao: str | None) -> int | None:
+def identificar_noites(descricao: str | None) -> int | None:
     if descricao is None:
         return None
 
@@ -43,7 +43,7 @@ def identificar_viagem(
             if alerta != "DIARIAS_NAO_IDENTIFICADAS"
         ]
         if despesa.categoria == "hospedagem":
-            noites = _identificar_noites(despesa.descricao)
+            noites = identificar_noites(despesa.descricao)
             if noites is None:
                 noites = 1
                 alertas.append("DIARIAS_NAO_IDENTIFICADAS")
