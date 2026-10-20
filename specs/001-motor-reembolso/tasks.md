@@ -44,7 +44,7 @@
   - **Aceite:** o teste `test_rn003_categoria_fora_da_politica_nao_gasta_teto` passa.
   - **Commit:**
 
-- [ ] **T-007** — Implementar a etapa 4: recusar despesas cuja data esteja fora do período informado, incluindo corretamente as datas-limite.
+- [x] **T-007** — Implementar a etapa 4: recusar despesas cuja data esteja fora do período informado, incluindo corretamente as datas-limite.
   - **Atende:** RN-004, AMB-009, AMB-010
   - **Aceite:** o teste `test_rn004_periodo_inclui_inicio_e_fim` passa.
   - **Commit:**
