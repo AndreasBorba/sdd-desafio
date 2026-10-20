@@ -42,7 +42,14 @@ def processar(
     resultados.extend(recusadas)
 
     dias_viagem, despesas = identificar_viagem(despesas)
-    resultados.extend(aplicar_tetos(despesas, dias_viagem))
+    resultados.extend(
+        aplicar_tetos(
+            despesas,
+            dias_viagem,
+            politica,
+            entrada.colaborador.centro_custo,
+        )
+    )
 
     ordem_por_id = {despesa.id: despesa.indice_original for despesa in entrada.despesas}
     resultados.sort(key=lambda resultado: ordem_por_id[resultado.id])

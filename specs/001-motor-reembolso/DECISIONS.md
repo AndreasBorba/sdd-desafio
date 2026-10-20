@@ -10,6 +10,38 @@ Ordem cronológica inversa: a mais recente primeiro.
 
 ---
 
+## D-006 — Define reembolso sob teto com fração de centavo · 2026-10-20
+
+**Gatilho:** implementação da T-025 revelou que a ampliação percentual pode produzir teto com fração de centavo.
+
+**O que mudou na spec:** AMB-034 e RN-008 estabelecem que o teto decimal permanece exato, mas o reembolso fica em centavos e não pode ultrapassar o teto.
+
+**Por quê:** manter precisão decimal no teto sem emitir valor monetário fracionado em centavos nem exceder o limite autorizado.
+
+**O que isso invalidou:** nada.
+
+**Tasks afetadas:** T-025.
+
+**Custo:** registrada a regra em spec, log e cobertura; o teste `test_rn008_periodicidade_e_categoria_definidas_na_politica` cobre teto ampliado com fração de centavo.
+
+---
+
+## D-005 — Define percentual de viagem omitido na política · 2026-10-20
+
+**Gatilho:** implementação da T-025 revelou que RN-008 não especificava o percentual quando a política externa contém somente "padrao".
+
+**O que mudou na spec:** AMB-033 e RN-008 definem que, na ausência de `acrescimo_em_viagem_percentual`, a ampliação em viagem é de 50%.
+
+**Por quê:** manter a equivalência com a política v3 quando o arquivo de política não inclui o percentual.
+
+**O que isso invalidou:** nada.
+
+**Tasks afetadas:** T-025.
+
+**Custo:** registrada a regra em spec, log e cobertura; o mesmo teste cobre a ausência do percentual.
+
+---
+
 ## D-004 — Registra o envelope do Dia 2 e a política v4 · 2026-10-20
 
 **Gatilho:** envelope lacrado do Dia 2 (política v4).

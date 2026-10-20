@@ -151,8 +151,8 @@
   - **Aceite:** o teste `test_rn003_politica_por_centro_de_custo_herda_padrao_e_recusa_limite_zero` passa.
   - **Commit:**
 
-- [ ] **T-025** — Aplicar periodicidades "dia" e "diaria" para categorias da política e aceitar categorias definidas no arquivo, mantendo a ampliação de viagem somente para alimentação e transporte_urbano.
-  - **Atende:** RN-007, RN-008, RN-012, AMB-003, AMB-023
+- [x] **T-025** — Aplicar periodicidades "dia" e "diaria" para categorias da política e aceitar categorias definidas no arquivo, mantendo a ampliação de viagem somente para alimentação e transporte_urbano.
+  - **Atende:** RN-007, RN-008, RN-012, AMB-003, AMB-023, AMB-033, AMB-034
   - **Aceite:** o teste `test_rn008_periodicidade_e_categoria_definidas_na_politica` passa.
   - **Commit:**
 
@@ -247,5 +247,7 @@
 | AMB-030 | T-029 | `test_rn009_ponta_a_ponta_envelope_v3_e_v4` |
 | AMB-031 | T-028 | `test_rn013_serializa_campos_de_moeda_sem_taxa_quando_sem_conversao` |
 | AMB-032 | T-028 | `test_rn013_serializa_campos_de_moeda_sem_taxa_quando_sem_conversao` |
+| AMB-033 | T-025 | `test_rn008_periodicidade_e_categoria_definidas_na_politica` |
+| AMB-034 | T-025 | `test_rn008_periodicidade_e_categoria_definidas_na_politica` |
 
 **RN ou AMB sem task:** nenhum.

@@ -185,9 +185,9 @@ Cada regra recebe um ID (`RN-001`, ...). As tasks vão referenciar esses IDs.
 
 ### RN-008 — Teto diário e pagamento parcial
 
-**Regra:** os limites e a periodicidade vêm da política selecionada. Periodicidade "dia" significa teto agregado por categoria e dia; cada despesa recebe até o que sobrou do dia. Periodicidade "diaria" significa limite multiplicado pelo número de noites identificado para aquela despesa, conforme AMB-003. Quando a compra passar do teto, a empresa paga até o limite e corta o excedente; as despesas seguintes que excederem o teto ficam RECUSADO com LIMITE_EXCEDIDO. Em viagem, somente alimentação e transporte_urbano têm seus limites ampliados pelo percentual da política. Hospedagem, representacao e o limiar da nota fiscal não são ampliados.
-**Origem:** decisões AMB-001, AMB-002, AMB-003, AMB-004, AMB-017, AMB-018 e AMB-023
-**Aceite:** com uma política equivalente à v3, no dia 2026-07-03, d-001, com alimentação de 72.50, paga 60.00 e fica PARCIAL; d-002 não recebe valor porque o restante do dia já foi usado.
+**Regra:** os limites e a periodicidade vêm da política selecionada. Periodicidade "dia" significa teto agregado por categoria e dia; cada despesa recebe até o que sobrou do dia. Periodicidade "diaria" significa limite multiplicado pelo número de noites identificado para aquela despesa, conforme AMB-003. Quando a compra passar do teto, a empresa paga até o limite e corta o excedente; as despesas seguintes que excederem o teto ficam RECUSADO com LIMITE_EXCEDIDO. Em viagem, somente alimentação e transporte_urbano têm seus limites ampliados pelo percentual da política. Se `acrescimo_em_viagem_percentual` estiver ausente, considera-se 50% para manter a equivalência com a política v3. O teto ampliado é mantido com precisão decimal exata; o valor reembolsável permanece em centavos e não pode ultrapassá-lo. Hospedagem, representacao e o limiar da nota fiscal não são ampliados.
+**Origem:** decisões AMB-001, AMB-002, AMB-003, AMB-004, AMB-017, AMB-018, AMB-023, AMB-033 e AMB-034
+**Aceite:** com uma política equivalente à v3, no dia 2026-07-03, d-001, com alimentação de 72.50, paga 60.00 e fica PARCIAL; d-002 não recebe valor porque o restante do dia já foi usado. Uma política externa somente com "padrao" mantém a ampliação de viagem de 50%. Se o teto ampliado for R$ 15,015, uma despesa de R$ 15,02 reembolsa no máximo R$ 15,01.
 
 ### RN-009 — Resumo final
 
@@ -455,6 +455,18 @@ Cada regra recebe um ID (`RN-001`, ...). As tasks vão referenciar esses IDs.
 **O que não está claro:** quais metadados de cotação exibir quando não existe cotação aplicável.
 **Decisão:** o item estrangeiro recusado por CAMBIO_INDISPONIVEL apresenta `moeda_original` e `valor_original`, mas omite `taxa_cambio` e `data_taxa_cambio`.
 **Regra afetada:** RN-013
+
+### AMB-033 — Percentual de ampliação ausente na política
+
+**O que não está claro:** qual ampliação em viagem aplicar quando a política não informa `acrescimo_em_viagem_percentual`.
+**Decisão:** considerar 50% para preservar a equivalência com a política v3.
+**Regra afetada:** RN-008 e RN-012
+
+### AMB-034 — Teto ampliado com fração de centavo
+
+**O que não está claro:** como comparar valores em centavos com teto ampliado que resulta em fração de centavo.
+**Decisão:** manter o teto decimal exato e limitar o reembolso aos centavos que não ultrapassem esse teto.
+**Regra afetada:** RN-008
 
 ---
 
