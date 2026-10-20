@@ -4,7 +4,7 @@
 
 > **Regra de ouro deste arquivo:** ele descreve o QUÊ e o PORQUÊ. Nenhuma linha
 > aqui pode citar linguagem, biblioteca, classe, função ou estrutura de pasta.
-> Se apareceu solução, o lugar dela é o `plan.md`.
+> Se apareceu solução, o lugar dela é o documento de plano.
 >
 > **Teste de aceitação da própria spec:** uma pessoa que nunca viu o projeto
 > consegue, lendo só este arquivo, verificar se o sistema está correto?
@@ -45,24 +45,30 @@ O sistema passa a calcular, para um colaborador e um período, quais despesas s�
 
 ## 4. Entrada e saída
 
-**Entrada:** conforme o arquivo de exemplo de despesas. Cada item representa uma despesa com data, categoria, descrição, fornecedor, valor e indicação se há nota fiscal.
+**Entrada:** conforme o arquivo de exemplo de despesas. Ela contém um colaborador, um período e uma lista de despesas. O período é definido por `inicio` e `fim`, incluindo as duas datas; `competencia` é apenas um rótulo. Uma despesa fora do período é RECUSADO, motivo FORA_COMPETENCIA.
 
 | Campo | Tipo | Significado | Obrigatório |
 |---|---|---|---|
-| id | texto | identificador da despesa | sim |
-| data | data | dia em que a despesa ocorreu | sim |
-| categoria | texto | categoria da despesa | sim |
-| descricao | texto | resumo do gasto | sim |
-| fornecedor | texto | nome do fornecedor ou local da compra | sim |
-| valor | número | valor solicitado da despesa | sim |
-| tem_nota_fiscal | booleano | indica se existe nota fiscal | sim |
+| colaborador.id | texto | identificador do colaborador | sim |
+| colaborador.nome | texto | nome do colaborador | sim |
+| colaborador.centro_custo | texto | centro de custo do colaborador | sim |
+| periodo.competencia | texto | rótulo da competência | sim |
+| periodo.inicio | data | primeiro dia do período, incluído | sim |
+| periodo.fim | data | último dia do período, incluído | sim |
+| despesas[].id | texto | identificador da despesa | sim |
+| despesas[].data | data | dia em que a despesa ocorreu | sim |
+| despesas[].categoria | texto | categoria da despesa | sim |
+| despesas[].descricao | texto | resumo do gasto | sim |
+| despesas[].fornecedor | texto | nome do fornecedor ou local da compra | sim |
+| despesas[].valor | número | valor informado para a despesa | sim |
+| despesas[].tem_nota_fiscal | booleano | indica se existe nota fiscal | sim |
 
 **Saída:** cada item recebe o valor solicitado, o valor reembolsável, o status final, o motivo e os alertas. O resumo traz a soma dos valores e a contagem por status.
 
 | Campo | Tipo | Significado |
 |---|---|---|
 | id | texto | identificador da despesa |
-| valor_solicitado | número | valor original da despesa, antes do cálculo |
+| valor_solicitado | número | valor lido já arredondado para duas casas decimais |
 | valor_reembolsavel | número | valor que a empresa paga |
 | status | texto | APROVADO, PARCIAL, RECUSADO ou ESTORNO |
 | motivo | texto | vazio para APROVADO; LIMITE_EXCEDIDO para PARCIAL; CATEGORIA_FORA_POLITICA, FORA_COMPETENCIA, DUPLICADA, NF_AUSENTE ou LIMITE_EXCEDIDO para RECUSADO; ESTORNO para ESTORNO. Se houver mais de um motivo de recusa, vale o da primeira regra da ordem de aplicação que recusou o item. |
@@ -73,7 +79,7 @@ O sistema passa a calcular, para um colaborador e um período, quais despesas s�
 | total_recusado | número | total_solicitado menos total_reembolsavel, incluindo recusas inteiras e excedentes cortados nos itens PARCIAL; estornos não entram |
 | contagem_por_status | objeto | quantidade de itens por status, incluindo estornos |
 
-Exemplo completo de entrada e saída:
+Exemplo de entrada e saída (subconjunto de 7 despesas):
 
 **Entrada (trecho do arquivo de exemplo):**
 
@@ -109,8 +115,8 @@ Exemplo completo de entrada e saída:
     {"id": "d-002", "valor_solicitado": 38.00, "valor_reembolsavel": 0.00, "status": "RECUSADO", "motivo": "LIMITE_EXCEDIDO", "alertas": []},
     {"id": "d-006", "valor_solicitado": 54.90, "valor_reembolsavel": 54.90, "status": "APROVADO", "motivo": "", "alertas": []},
     {"id": "d-009", "valor_solicitado": -45.00, "valor_reembolsavel": 0.00, "status": "ESTORNO", "motivo": "ESTORNO", "alertas": []},
-    {"id": "d-010", "valor_solicitado": 480.00, "valor_reembolsavel": 480.00, "status": "APROVADO", "motivo": "", "alertas": ["VIAGEM_INFERIDA"]},
-    {"id": "d-011", "valor_solicitado": 33.33, "valor_reembolsavel": 33.33, "status": "APROVADO", "motivo": "", "alertas": ["VALOR_ARREDONDADO", "VIAGEM_INFERIDA"]},
+    {"id": "d-010", "valor_solicitado": 480.00, "valor_reembolsavel": 480.00, "status": "APROVADO", "motivo": "", "alertas": []},
+    {"id": "d-011", "valor_solicitado": 33.33, "valor_reembolsavel": 33.33, "status": "APROVADO", "motivo": "", "alertas": ["VALOR_ARREDONDADO"]},
     {"id": "d-014", "valor_solicitado": 61.00, "valor_reembolsavel": 60.00, "status": "PARCIAL", "motivo": "LIMITE_EXCEDIDO", "alertas": []}
   ],
   "resumo": {
@@ -159,7 +165,7 @@ Cada regra recebe um ID (`RN-001`, ...). As tasks vão referenciar esses IDs.
 
 **Regra:** duas despesas são duplicatas quando têm a mesma data, categoria, fornecedor e valor. A primeira ocorrência paga; as demais são recusadas com motivo DUPLICADA.
 **Origem:** decisões AMB-011 e AMB-012
-**Aceite:** d-006 e d-007 têm mesmo dia, categoria, fornecedor e valor. d-006 é mantida e d-007 retorna RECUSADO com motivo DUPLICADA.
+**Aceite:** d-006 e d-007 têm mesmo dia, categoria, fornecedor e valor. d-006 é mantida e d-007 retorna RECUSADO com motivo DUPLICADA e `despesa_mantida` igual a "d-006".
 
 ### RN-006 — Nota fiscal obrigatória
 
@@ -169,9 +175,9 @@ Cada regra recebe um ID (`RN-001`, ...). As tasks vão referenciar esses IDs.
 
 ### RN-007 — Viagem inferida
 
-**Regra:** se existe uma hospedagem não recusada, o colaborador está em viagem do dia da despesa até esse dia mais o número de noites, inclusive. Itens que se beneficiam desse regime recebem o alerta VIAGEM_INFERIDA.
+**Regra:** se existe uma hospedagem que passou pelos passos 3 a 6 da ordem de aplicação, o colaborador está em viagem do dia da despesa até esse dia mais o número de noites, inclusive. Hospedagem com status PARCIAL também conta. O alerta VIAGEM_INFERIDA aparece apenas em item de alimentação ou transporte, em dia de viagem, com valor reembolsável maior que o teto-base.
 **Origem:** decisões AMB-007 e AMB-008
-**Aceite:** d-010, hospedagem de 2 diárias, torna os dias 2026-07-14, 2026-07-15 e 2026-07-16 de viagem; d-011 recebe VIAGEM_INFERIDA.
+**Aceite:** d-010, hospedagem de 2 diárias, torna os dias 2026-07-14, 2026-07-15 e 2026-07-16 de viagem. d-011 está em dia de viagem, mas não recebe VIAGEM_INFERIDA porque seu valor reembolsável de 33.33 não supera o teto-base de alimentação de 60.00.
 
 ### RN-008 — Teto diário e pagamento parcial
 
@@ -183,7 +189,7 @@ Cada regra recebe um ID (`RN-001`, ...). As tasks vão referenciar esses IDs.
 
 **Regra:** o resumo da execução conta os valores solicitados, os valores reembolsáveis e a contagem final dos itens por status. Estornos não entram nos totais do resumo e duplicatas não gastam teto.
 **Origem:** decisões AMB-012 e AMB-014
-**Aceite:** d-009 não entra em total_solicitado, total_reembolsavel nem total_recusado; os itens aprovados e parciais entram no total da empresa e a soma de status resultante é 4 aprovados, 3 parciais, 6 recusados e 1 estorno.
+**Aceite:** d-009 não entra em total_solicitado, total_reembolsavel nem total_recusado; no caso completo d-001 a d-014, total_solicitado é 1861.84, total_reembolsavel é 815.43, total_recusado é 1046.41 e a contagem é 4 aprovados, 3 parciais, 6 recusados e 1 estorno.
 
 ---
 
@@ -245,7 +251,7 @@ Cada regra recebe um ID (`RN-001`, ...). As tasks vão referenciar esses IDs.
 
 **Texto original do RH:** "Colaborador em viagem tem limites ampliados em 50%."
 **O que não está claro:** como saber que o colaborador está em viagem quando não há esse campo.
-**Decisão:** a viagem é deduzida pela hospedagem. Se existe uma hospedagem não recusada, o colaborador está em viagem do dia da despesa até esse dia mais o número de noites, inclusive. Itens que se beneficiam disso recebem o alerta VIAGEM_INFERIDA.
+**Decisão:** a viagem é deduzida pela hospedagem. Se existe uma hospedagem que passou pelos passos 3 a 6 da ordem de aplicação, o colaborador está em viagem do dia da despesa até esse dia mais o número de noites, inclusive; hospedagem PARCIAL também conta. O alerta VIAGEM_INFERIDA aparece apenas em item de alimentação ou transporte, em dia de viagem, com valor reembolsável maior que o teto-base.
 **Justificativa:**
 **Regra afetada:** RN-007
 
@@ -352,8 +358,8 @@ Cada regra recebe um ID (`RN-001`, ...). As tasks vão referenciar esses IDs.
 | d-007 | 2026-07-09, alimentação, 54.90, com nota, duplicata de d-006 | RECUSADO por DUPLICADA; mantém d-006 como original | RN-005 |
 | d-008 | 2026-04-15, alimentação, 41.00, com nota | RECUSADO por FORA_COMPETENCIA | RN-004 |
 | d-009 | 2026-07-11, transporte urbano, -45.00, sem nota | ESTORNO, valor reembolsável 0.00, sem impacto no teto | RN-002 |
-| d-010 | 2026-07-14, hospedagem, 480.00, 2 diárias, com nota | APROVADO, teto de 500.00, sem corte; recebe VIAGEM_INFERIDA nos dias de viagem | RN-007 e RN-008 |
-| d-011 | 2026-07-15, alimentação, 33.333, com nota | APROVADO, valor reembolsável 33.33; alerta VALOR_ARREDONDADO e VIAGEM_INFERIDA | RN-001 e RN-007 |
+| d-010 | 2026-07-14, hospedagem, 480.00, 2 diárias, com nota | APROVADO, teto de 500.00, sem corte; não recebe VIAGEM_INFERIDA | RN-007 e RN-008 |
+| d-011 | 2026-07-15, alimentação, 33.333, com nota | APROVADO, valor_solicitado e reembolsável 33.33; recebe VALOR_ARREDONDADO, sem VIAGEM_INFERIDA porque não supera o teto-base | RN-001 e RN-007 |
 | d-012 | 2026-07-18, alimentação, 47.20, com nota | APROVADO, valor reembolsável 47.20 | RN-008 |
 | d-013 | 2026-07-22, hospedagem, 690.00, sem nota, 3 noites | RECUSADO por NF_AUSENTE; a ausência de nota vence antes da regra de limite | RN-006 |
 | d-014 | 2026-07-31, ALIMENTACAO, 61.00, com nota | PARCIAL com valor reembolsável 60.00; o excedente de 1.00 é cortado | RN-001 e RN-008 |
@@ -377,9 +383,9 @@ O sistema está pronto quando:
 - [ ] a categoria "ALIMENTACAO" é tratada como alimentação no mesmo dia em que o item entrar, sem depender de caixa ou acentos.
 - [ ] d-001 e d-014 são PARCIAL, com valor reembolsável 60.00 e o excedente cortado.
 - [ ] d-002, no mesmo dia da alimentação, fica RECUSADO por LIMITE_EXCEDIDO, sem gastar mais do teto do dia.
-- [ ] d-006 e d-007 são tratados como duplicata; d-007 fica RECUSADO e d-006 continua como original.
+- [ ] d-006 e d-007 são tratados como duplicata; d-007 fica RECUSADO, d-006 continua como original e `despesa_mantida` de d-007 é "d-006".
 - [ ] d-009 é ESTORNO, tem valor reembolsável 0.00 e não entra nos totais do resumo.
 - [ ] R$ 100,00 não exige nota; d-003 é PARCIAL, com valor reembolsável 80.00 e motivo LIMITE_EXCEDIDO. d-004 e d-013 ficam RECUSADO com motivo NF_AUSENTE.
-- [ ] d-010 e d-011 recebem o alerta VIAGEM_INFERIDA e d-011 paga 33.33 no teto ampliado de viagem.
+- [ ] d-010 não recebe VIAGEM_INFERIDA; d-011 recebe VALOR_ARREDONDADO, tem valor_solicitado 33.33 e não recebe VIAGEM_INFERIDA, pois seu valor reembolsável não supera o teto-base.
 - [ ] d-008 é RECUSADO por FORA_COMPETENCIA, mesmo sendo uma despesa válida de outra categoria.
-- [ ] o resumo final conta 4 aprovados, 3 parciais, 6 recusados e 1 estorno para o exemplo completo dos itens d-001 a d-014.
+- [ ] no caso completo d-001 a d-014, o resumo informa total_solicitado 1861.84, total_reembolsavel 815.43, total_recusado 1046.41 e conta 4 aprovados, 3 parciais, 6 recusados e 1 estorno.
