@@ -197,6 +197,12 @@ Cada regra recebe um ID (`RN-001`, ...). As tasks vão referenciar esses IDs.
 **Origem:** decisão de validação da entrada.
 **Aceite:** um JSON com uma despesa de id "d-001" sem o campo "valor" retorna código 1, escreve uma mensagem em português que cita "d-001" na saída de erro e não cria o arquivo de saída.
 
+### RN-011 — Interface de linha de comando
+
+**Regra:** o comando chama-se `calcular` e recebe `--input` (obrigatório, caminho do arquivo de despesas) e `--output` (obrigatório, caminho do arquivo de resultado). Aplicam-se os códigos de saída da RN-010: 0 em caso de sucesso, 1 para entrada inválida e 2 para erro de uso, incluindo a ausência de `--input` ou `--output`. Caminhos posicionais não são aceitos.
+**Origem:** interface fixa do enunciado.
+**Aceite:** com `calcular --input despesas.json --output resultado.json` e uma entrada válida, o arquivo de saída é criado e o código de saída é 0; sem `--output`, o código é 2 e nenhum arquivo de saída é criado; caminhos posicionais não são aceitos.
+
 ---
 
 ## 6. Ambiguidades identificadas e decisões

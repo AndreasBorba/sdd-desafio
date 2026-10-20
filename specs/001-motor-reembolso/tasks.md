@@ -119,6 +119,13 @@
   - **Aceite:** o teste `test_rn010_comando_documentado_no_readme` passa.
   - **Commit:**
 
+## Fase 7 — Correção de interface
+
+- [ ] **T-020** — Ajustar a CLI para `calcular --input <arquivo de despesas> --output <arquivo de resultado>`, atualizar os testes de CLI e de ponta a ponta e atualizar o README para o novo formato.
+  - **Atende:** RN-011
+  - **Aceite:** o teste `test_rn011_interface_calcular_input_output` passa e a suíte inteira passa.
+  - **Commit:**
+
 ---
 
 ## Cobertura
@@ -138,6 +145,7 @@
 | RN-010 | T-014 | `test_rn010_entrada_invalida_tipos_datas_e_periodo` |
 | RN-010 | T-015 | `test_rn010_entrada_invalida_arquivo_e_json` |
 | RN-010 | T-017 | `test_rn010_codigos_de_saida` |
+| RN-011 | T-020 | `test_rn011_interface_calcular_input_output` |
 | AMB-001 | T-011 | `test_rn008_aplica_teto_diario_e_distribui_excedente` |
 | AMB-002 | T-011 | `test_rn008_aplica_teto_diario_e_distribui_excedente` |
 | AMB-003 | T-010 | `test_rn007_inferencia_viagem_considera_hospedagem_qualificada` |

@@ -10,6 +10,22 @@ Ordem cronológica inversa: a mais recente primeiro.
 
 ---
 
+## D-003 — Registra a interface fixa da CLI · 2026-10-20
+
+**Gatilho:** interface fixa do enunciado não estava na spec; a primeira implementação usou caminhos posicionais.
+
+**O que mudou na spec:** adicionada RN-011 para fixar o comando `calcular`, as opções obrigatórias `--input` e `--output`, a rejeição de caminhos posicionais e a aplicação dos códigos de saída da RN-010.
+
+**Por quê:** alinhar a interface especificada à interface fixa do enunciado e permitir testes verificáveis de uso correto e incorreto.
+
+**O que isso invalidou:** os critérios de interface das tasks T-017 e T-019, que precisam ser atualizados para a sintaxe nomeada; o teste ponta a ponta da T-018 também deve usar o novo formato.
+
+**Tasks afetadas:** T-017, T-018, T-019 e T-020.
+
+**Custo:** 3 documentos alterados; nenhum código ou teste alterado. A nova task T-020 rastreia a correção da CLI, dos testes de CLI e ponta a ponta e do README.
+
+---
+
 ## D-002 — Identifica noites na descrição de hospedagem · 2026-10-20
 
 **Gatilho:** ambiguidade descoberta na implementação da T-010.
