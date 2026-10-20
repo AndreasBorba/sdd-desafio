@@ -126,6 +126,14 @@
   - **Aceite:** o teste `test_rn011_interface_calcular_input_output` passa e a suíte inteira passa.
   - **Commit:**
 
+## Fase 8 — Correção de execução
+
+- [ ] **T-021** — Tornar o pacote instalável com `pyproject.toml` usando layout `src/` e documentar no README os passos de instalação, execução e testes no PowerShell.
+  - **Atende:** RN-011
+  - **Aceite:** após criar e ativar `.venv`, executar `pip install -e .` e `pip install pytest`, o comando `python -m reembolso calcular --input exemplos\despesas-exemplo.json --output resultado.json` funciona a partir da raiz, cria o arquivo e retorna código 0; o teste `test_rn011_comando_executa_a_partir_da_raiz` passa executando o comando em processo separado e sem depender do `pytest.ini`.
+  - **README:** documentar em PowerShell a criação e ativação de `.venv`, instalação editável, instalação do pytest, execução da CLI e execução dos testes.
+  - **Commit:**
+
 ---
 
 ## Cobertura
@@ -146,6 +154,7 @@
 | RN-010 | T-015 | `test_rn010_entrada_invalida_arquivo_e_json` |
 | RN-010 | T-017 | `test_rn010_codigos_de_saida` |
 | RN-011 | T-020 | `test_rn011_interface_calcular_input_output` |
+| RN-011 | T-021 | `test_rn011_comando_executa_a_partir_da_raiz` |
 | AMB-001 | T-011 | `test_rn008_aplica_teto_diario_e_distribui_excedente` |
 | AMB-002 | T-011 | `test_rn008_aplica_teto_diario_e_distribui_excedente` |
 | AMB-003 | T-010 | `test_rn007_inferencia_viagem_considera_hospedagem_qualificada` |

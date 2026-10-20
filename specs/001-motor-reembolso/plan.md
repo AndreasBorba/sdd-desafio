@@ -219,6 +219,16 @@ cálculo com dados incompletos ou produzir mensagens e códigos inconsistentes.
 da saída; a fronteira deve preservar o id da despesa quando disponível para
 incluí-lo na mensagem.
 
+### DT-012 — Instalação editável do pacote
+
+**Contexto:** a CLI deve funcionar a partir da raiz sem depender do caminho de
+importação configurado pelo pytest.
+**Decisão:** instalar o pacote em modo editável com a configuração do projeto.
+**Alternativa descartada:** definir `PYTHONPATH` manualmente, por ser frágil e
+depender da configuração de cada ambiente.
+**Consequência:** a execução documentada prepara um ambiente virtual e instala
+o pacote antes de chamar a CLI ou os testes.
+
 ---
 
 ## 6. Estratégia de testes

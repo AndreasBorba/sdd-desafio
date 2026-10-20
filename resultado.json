@@ -1,0 +1,130 @@
+{
+  "itens": [
+    {
+      "id": "d-001",
+      "valor_solicitado": 72.50,
+      "valor_reembolsavel": 60.00,
+      "status": "PARCIAL",
+      "motivo": "LIMITE_EXCEDIDO",
+      "alertas": []
+    },
+    {
+      "id": "d-002",
+      "valor_solicitado": 38.00,
+      "valor_reembolsavel": 0.00,
+      "status": "RECUSADO",
+      "motivo": "LIMITE_EXCEDIDO",
+      "alertas": []
+    },
+    {
+      "id": "d-003",
+      "valor_solicitado": 100.00,
+      "valor_reembolsavel": 80.00,
+      "status": "PARCIAL",
+      "motivo": "LIMITE_EXCEDIDO",
+      "alertas": []
+    },
+    {
+      "id": "d-004",
+      "valor_solicitado": 100.01,
+      "valor_reembolsavel": 0.00,
+      "status": "RECUSADO",
+      "motivo": "NF_AUSENTE",
+      "alertas": []
+    },
+    {
+      "id": "d-005",
+      "valor_solicitado": 89.00,
+      "valor_reembolsavel": 0.00,
+      "status": "RECUSADO",
+      "motivo": "CATEGORIA_FORA_POLITICA",
+      "alertas": []
+    },
+    {
+      "id": "d-006",
+      "valor_solicitado": 54.90,
+      "valor_reembolsavel": 54.90,
+      "status": "APROVADO",
+      "motivo": "",
+      "alertas": []
+    },
+    {
+      "id": "d-007",
+      "valor_solicitado": 54.90,
+      "valor_reembolsavel": 0.00,
+      "status": "RECUSADO",
+      "motivo": "DUPLICADA",
+      "despesa_mantida": "d-006",
+      "alertas": []
+    },
+    {
+      "id": "d-008",
+      "valor_solicitado": 41.00,
+      "valor_reembolsavel": 0.00,
+      "status": "RECUSADO",
+      "motivo": "FORA_COMPETENCIA",
+      "alertas": []
+    },
+    {
+      "id": "d-009",
+      "valor_solicitado": -45.00,
+      "valor_reembolsavel": 0.00,
+      "status": "ESTORNO",
+      "motivo": "ESTORNO",
+      "alertas": []
+    },
+    {
+      "id": "d-010",
+      "valor_solicitado": 480.00,
+      "valor_reembolsavel": 480.00,
+      "status": "APROVADO",
+      "motivo": "",
+      "alertas": []
+    },
+    {
+      "id": "d-011",
+      "valor_solicitado": 33.33,
+      "valor_reembolsavel": 33.33,
+      "status": "APROVADO",
+      "motivo": "",
+      "alertas": [
+        "VALOR_ARREDONDADO"
+      ]
+    },
+    {
+      "id": "d-012",
+      "valor_solicitado": 47.20,
+      "valor_reembolsavel": 47.20,
+      "status": "APROVADO",
+      "motivo": "",
+      "alertas": []
+    },
+    {
+      "id": "d-013",
+      "valor_solicitado": 690.00,
+      "valor_reembolsavel": 0.00,
+      "status": "RECUSADO",
+      "motivo": "NF_AUSENTE",
+      "alertas": []
+    },
+    {
+      "id": "d-014",
+      "valor_solicitado": 61.00,
+      "valor_reembolsavel": 60.00,
+      "status": "PARCIAL",
+      "motivo": "LIMITE_EXCEDIDO",
+      "alertas": []
+    }
+  ],
+  "resumo": {
+    "total_solicitado": 1861.84,
+    "total_reembolsavel": 815.43,
+    "total_recusado": 1046.41,
+    "contagem_por_status": {
+      "APROVADO": 4,
+      "PARCIAL": 3,
+      "RECUSADO": 6,
+      "ESTORNO": 1
+    }
+  }
+}
